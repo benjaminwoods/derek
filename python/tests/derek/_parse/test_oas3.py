@@ -1,13 +1,13 @@
 import json
 
-from derek._parse import _oas3
+from derek._parse import Parser
 from derek._derek import Derek
 
 class OAS3BaseTest:
     def JSON(self, obj, **kwargs):
         node = Derek.tree(obj, **kwargs)
 
-        return json.loads(_oas3(node))
+        return Parser.oas3(node)
 
         # TODO: check child nodes
 

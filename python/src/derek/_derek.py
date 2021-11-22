@@ -1,4 +1,6 @@
-from ._parse import parse
+import json
+
+from . import _parse
 
 class Derek:
     # TODO: Add docstrings
@@ -6,13 +8,15 @@ class Derek:
     # TODO: Add checkIntegrity method
     # TODO: Add typing
 
-    _parser = parse
-
     def __init__(self, parent=None, children=None, value=None, name=None):
         self.parent = parent
         self.children = children
         self.value = value
         self.name = name
+
+    @property
+    def parser(self):
+        return _parse.Parser
 
     @classmethod
     def tree(cls, obj, parent=None, name=None):
@@ -45,6 +49,27 @@ class Derek:
         self.value = obj
         self.name = name
         return self
+
+    def parse(self, format='oas3'):
+        """
+        Convert a tree of Derek nodes to a given format.
+        """
+        format = format.lower()
+        if format == 'oas3':
+            return self.parser.oas3(self)
+        else:
+            raise NotImplementedError
+
+    def serialize(self, format='oas3'):
+        """
+        Convert tree to a string.
+        """
+
+        # TODO: handle other formats, not just OAS3
+        return json.dumps({
+            self.name or 'untitled': self.parse(format=format),
+            'example': self.example()
+        })
 
     def example(self):
         # TODO: don't assume that all of the child nodes are of the same
