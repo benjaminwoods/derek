@@ -39,3 +39,36 @@ class Derek:
         self.value = obj
         self.name = name
         return self
+
+    def example(self):
+        # TODO: don't assume that all of the child nodes are of the same
+        # type.
+
+        if isinstance(self.value, list):
+            if self.value == []:
+                result = []
+            else:
+                c = self.children[0]
+                if isinstance(c, Derek):
+                    v = c.example()
+                else:
+                    v = c
+                result = [
+                    c if not isinstance(c, Derek)
+                    else c.example()
+                ]
+        elif isinstance(self.value, dict):
+            if self.value == {}:
+                result = {}
+            else:
+                result = {
+                    k: (v if not isinstance(v, Derek)
+                    else v.example()) for k,v in zip(
+                        self.value.keys(),
+                        self.children
+                    )
+                }
+        else:
+            result = self.value
+
+        return result
