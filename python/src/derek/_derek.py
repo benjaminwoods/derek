@@ -1,8 +1,12 @@
+from ._parse import parse
+
 class Derek:
     # TODO: Add docstrings
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
     # TODO: Add typing
+
+    _parser = parse
 
     def __init__(self, parent=None, children=None, value=None, name=None):
         self.parent = parent
@@ -15,6 +19,8 @@ class Derek:
         """
         Create a tree.
         """
+
+        # TODO: return DerekTree (a subclass of Derek) instead of Derek.
         self = cls.__new__(cls)
         children = []
 
