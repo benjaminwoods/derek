@@ -3,6 +3,10 @@ import json
 class Parser:
     @classmethod
     def oas3(cls, node):
+        """
+        Convert a data structure, with :code:`node` as the root node,
+        into OAS3 schema.
+        """
         if isinstance(node.value, list):
             # TODO: don't assume that all of the child nodes are of the same
             # type.

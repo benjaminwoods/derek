@@ -3,6 +3,11 @@ import json
 from . import _parse
 
 class Derek:
+    """
+    A node in a data structure.
+
+    Contains information about itself, its parent node, and any child nodes.
+    """
     # TODO: Add docstrings
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
@@ -16,7 +21,10 @@ class Derek:
 
     @property
     def parser(self):
-        return _parse.Parser
+        """
+        Return an instance of the parser class.
+        """
+        return _parse.Parser()
 
     @classmethod
     def tree(cls, obj, parent=None, name=None):
@@ -65,13 +73,18 @@ class Derek:
         Convert tree to a string.
         """
 
+        j = self.parse(format=format)
+        j['example'] = self.example()
+
         # TODO: handle other formats, not just OAS3
         return json.dumps({
-            self.name or 'untitled': self.parse(format=format),
-            'example': self.example()
+            self.name or 'untitled': j
         })
 
     def example(self):
+        """
+        Generate example JSON from self.
+        """
         # TODO: don't assume that all of the child nodes are of the same
         # type.
 
