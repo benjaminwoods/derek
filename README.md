@@ -6,12 +6,13 @@ Tools for converting data into schema.
 
 1. [Installation](#installation)
 2. [What is Derek?](#what)
-  1. [Document data structures](#document)
-  2. [Extract schemas from APIs](#extract)
-  3. [Really lightweight](#really)
-  4. [Extensible](#extensible)
-  5. [KISS](#kiss)
-3. [API](docs/api)
+    1. [Document data structures](#document)
+    2. [Extract schemas from APIs](#extract)
+    3. [Really lightweight](#really)
+    4. [Extensible](#extensible)
+    5. [KISS](#kiss)
+3. [Specification](docs/spec.md)
+3. [API](docs/api.md)
 
 ## Installation
 
@@ -210,7 +211,7 @@ Addresses:
   type: object
 ```
 
-## Derek is simple. <a name="kiss"></a>
+## Derek is straightforward. <a name="kiss"></a>
 
 Derek is designed for ease of use. If you're trying to use Derek functionality
 in a workflow and it feels like it should be easier to get your desired result,
