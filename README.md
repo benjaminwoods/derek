@@ -54,7 +54,7 @@ You can use `.example()` to see a simple example item of data:
 [{'some': [1.0, 3.0, 4.5], 'data': [3.4, 4.5]}]
 ```
 
-You can produce an OAS3 JSON schema from this data, too:
+You can produce an OAS2/OAS3 JSON schema from this data, too:
 
 ```python
 >>> root_node.serialize(format='oas3')
@@ -151,14 +151,14 @@ class PywhatDerek(Derek):
 
 class PywhatParser(Parser):
     @classmethod
-    def oas3(cls, node):
+    def oas2(cls, node):
         # Call the superclass parser for the current node:
         #   _sup = cls.__mro__[PywhatParser.__mro__.index(int):]
-        #   j = _sup.oas3(cls, node)
-        # All calls to the oas3 method in the superclass therefore re-route
+        #   j = _sup.oas2(cls, node)
+        # All calls to the oas2 method in the superclass therefore re-route
         # back to this class method, automatically handling all recursive calls
         # here.
-        j = super(PywhatParser, cls).oas3(node)
+        j = super(PywhatParser, cls).oas2(node)
 
         # The rest of this function simply patches in results from a call
         # to the pywhat API.

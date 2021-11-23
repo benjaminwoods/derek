@@ -31,7 +31,11 @@ Create a tree.
 
 #### classmethod oas3(node)
 Convert a data structure, with `node` as the root node,
-into OAS3 schema.
+into OAS3 schema. (Alias for OAS2.)
+
+#### classmethod oas2(node)
+Convert a data structure, with `node` as the root node,
+into OAS2 schema. (Alias for OAS3.)
 
 # Indices and tables
 

@@ -2,10 +2,10 @@ import json
 
 class Parser:
     @classmethod
-    def oas3(cls, node):
+    def oas2(cls, node):
         """
         Convert a data structure, with :code:`node` as the root node,
-        into OAS3 schema.
+        into OAS2 schema.
         """
         if isinstance(node.value, list):
             # TODO: don't assume that all of the child nodes are of the same
@@ -21,7 +21,7 @@ class Parser:
             else:
                 j = {
                     "type": "array",
-                    "items": cls.oas3(node.children[0])
+                    "items": cls.oas2(node.children[0])
                 }
         elif isinstance(node.value, dict):
             # TODO: don't assume that all of the child nodes are of the same
@@ -34,7 +34,7 @@ class Parser:
             else:
                 j = {
                     "type": "object",
-                    "additionalProperties": cls.oas3(node.children[0])
+                    "additionalProperties": cls.oas2(node.children[0])
                 }
         else:
             if isinstance(node.value, str):
@@ -57,3 +57,12 @@ class Parser:
                 raise NotImplementedError
 
         return j
+
+    @classmethod
+    def oas3(cls, node):
+        """
+        Convert a data structure, with :code:`node` as the root node,
+        into OAS3 schema. (Alias for OAS2.)
+        """
+
+        return cls.oas2(node)
