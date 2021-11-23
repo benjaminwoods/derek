@@ -2,6 +2,29 @@
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "derek"
+version = {attr = "derek.__version__"}
+description = "Convert data structure to schema."
+readme = "../README.md"
+keywords = ["data", "schema", "convert", "analyze"]
+authors = [
+  {name = 'Benjamin Woods', email = 'ben@bjqw.me'}
+]
+license = {file = 'README.md'}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Database"
+]
+
+[options]
+packages = ["derek"]
+package_dir = {"" = "src"}
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"

@@ -1,0 +1,8 @@
+language: python
+install:
+  - pip install -r python/requirements/build.txt
+  - pip install -r python/requirements/test.txt
+  - pip install ./python
+script:
+  - pytest
+if: type = pull_request OR branch = main
