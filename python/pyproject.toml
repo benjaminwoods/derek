@@ -1,10 +1,6 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "derek"
-version = {attr = "derek.__version__"}
+version = "0.0.1"
 description = "Convert data structure to schema."
 readme = "../README.md"
 keywords = ["data", "schema", "convert", "analyze"]
@@ -20,10 +16,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Database"
 ]
-
-[options]
-packages = ["derek"]
-package_dir = {"" = "src"}
 
 [tool.pytest.ini_options]
 minversion = "6.0"
