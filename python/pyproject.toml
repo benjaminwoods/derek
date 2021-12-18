@@ -1,0 +1,25 @@
+[project]
+name = "derek"
+version = "0.0.1"
+description = "Convert data structure to schema."
+readme = "../README.md"
+keywords = ["data", "schema", "convert", "analyze"]
+authors = [
+  {name = 'Benjamin Woods', email = 'ben@bjqw.me'}
+]
+license = {file = 'README.md'}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Database"
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests"
+]
