@@ -19,7 +19,10 @@ classifiers = [
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = "-ra --cov=python/src/derek"
 testpaths = [
-    "tests"
+    "python/tests"
 ]
+
+[tool.coverage.run]
+branch = true
