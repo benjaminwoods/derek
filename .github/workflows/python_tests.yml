@@ -37,6 +37,12 @@ jobs:
         python-version: 3.9
     - name: Update pip
       run: python -m pip install --upgrade pip
+    - name: Install Python dependencies
+      run: |
+        pip install -r python/requirements/install.txt
+        pip install -r python/requirements/test.txt
+    - name: Install Python project
+      run: pip install -e python
     - name: Run coverage
       run: |
         pip install -r python/requirements/test.txt
