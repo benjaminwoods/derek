@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import json
 
 from . import _parse
@@ -18,12 +16,11 @@ class Derek:
     # TODO: Add docstrings
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
-    # TODO: Add typing
 
     def __init__(
         self,
-        parent: Optional[Derek] = None,
-        children: Optional[Iterable[Derek]] = None,
+        parent: Optional["Derek"] = None,
+        children: Optional[Iterable["Derek"]] = None,
         value: Optional[Any] = None,
         name: Optional[str] = None,
     ) -> Derek:
@@ -43,7 +40,7 @@ class Derek:
     def tree(
         cls,
         obj: _typing.JSON,
-        parent: Optional[Derek] = None,
+        parent: Optional["Derek"] = None,
         name: Optional[str] = None,
     ) -> Derek:
         """
