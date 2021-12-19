@@ -57,20 +57,20 @@ jobs:
       id: check_badge
       run: >
         if git diff --quiet .badges/coverage/python.svg; then
-          echo "::set-output name=updated::false"
+          echo "::set-output name=updated::0"
         else
-          echo "::set-output name=updated::true"
+          echo "::set-output name=updated::1"
         fi
       shell: bash
     - name: Commit coverage badge
-      if: steps.check_badge.updated == "true"
+      if: steps.check_badge.updated == 1
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add .badges/coverage/python.svg
         git commit -m "Updated Python coverage badge"
     - name: Push coverage badge
-      if: steps.check_badge.updated == "true"
+      if: steps.check_badge.updated == 1
       uses: ad-m/github-push-action@v0.6.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
