@@ -2,12 +2,14 @@ import json
 
 from . import _parse
 
+
 class Derek:
     """
     A node in a data structure.
 
     Contains information about itself, its parent node, and any child nodes.
     """
+
     # TODO: Add docstrings
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
@@ -38,16 +40,10 @@ class Derek:
 
         if isinstance(obj, list):
             # Make child nodes
-            children = [
-                cls.tree(item, self)
-                for item in obj
-            ]
+            children = [cls.tree(item, self) for item in obj]
         elif isinstance(obj, dict):
             # Make child nodes
-            children = [
-                cls.tree(item, self)
-                for item in obj.values()
-            ]
+            children = [cls.tree(item, self) for item in obj.values()]
         else:
             # Not iterable
             children = None
@@ -58,28 +54,26 @@ class Derek:
         self.name = name
         return self
 
-    def parse(self, format='oas3'):
+    def parse(self, format="oas3"):
         """
         Convert a tree of Derek nodes to a given format.
         """
         format = format.lower()
-        if format == 'oas3':
+        if format == "oas3":
             return self.parser.oas3(self)
         else:
             raise NotImplementedError
 
-    def serialize(self, format='oas3'):
+    def serialize(self, format="oas3"):
         """
         Convert tree to a string.
         """
 
         j = self.parse(format=format)
-        j['example'] = self.example()
+        j["example"] = self.example()
 
         # TODO: handle other formats, not just OAS3
-        return json.dumps({
-            self.name or 'untitled': j
-        })
+        return json.dumps({self.name or "untitled": j})
 
     def example(self):
         """
@@ -97,20 +91,14 @@ class Derek:
                     v = c.example()
                 else:
                     v = c
-                result = [
-                    c if not isinstance(c, Derek)
-                    else c.example()
-                ]
+                result = [c if not isinstance(c, Derek) else c.example()]
         elif isinstance(self.value, dict):
             if self.value == {}:
                 result = {}
             else:
                 result = {
-                    k: (v if not isinstance(v, Derek)
-                    else v.example()) for k,v in zip(
-                        self.value.keys(),
-                        self.children
-                    )
+                    k: (v if not isinstance(v, Derek) else v.example())
+                    for k, v in zip(self.value.keys(), self.children)
                 }
         else:
             result = self.value

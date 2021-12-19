@@ -3,6 +3,7 @@ import json
 from derek._parse import Parser
 from derek._derek import Derek
 
+
 class OAS3BaseTest:
     def JSON(self, obj, **kwargs):
         node = Derek.tree(obj, **kwargs)
@@ -10,6 +11,7 @@ class OAS3BaseTest:
         return Parser.oas3(node)
 
         # TODO: check child nodes
+
 
 class Test_OAS3(OAS3BaseTest):
     def test_integer(self):
@@ -22,9 +24,7 @@ class Test_OAS3(OAS3BaseTest):
         args = (3141,)
 
         j = self.JSON(*args)
-        assert j == {
-            'type': 'integer'
-        }
+        assert j == {"type": "integer"}
 
     def test_string(self):
         """
@@ -33,12 +33,10 @@ class Test_OAS3(OAS3BaseTest):
         """
         # TODO: monkey testing
 
-        args = ('abc',)
+        args = ("abc",)
 
         j = self.JSON(*args)
-        assert j == {
-            'type': 'string'
-        }
+        assert j == {"type": "string"}
 
     def test_float(self):
         """
@@ -50,9 +48,7 @@ class Test_OAS3(OAS3BaseTest):
         args = (3.141,)
 
         j = self.JSON(*args)
-        assert j == {
-            'type': 'number'
-        }
+        assert j == {"type": "number"}
 
     def test_bool(self):
         """
@@ -64,9 +60,7 @@ class Test_OAS3(OAS3BaseTest):
         args = (True,)
 
         j = self.JSON(*args)
-        assert j == {
-            'type': 'boolean'
-        }
+        assert j == {"type": "boolean"}
 
     def test_simple_list(self):
         """
@@ -75,15 +69,10 @@ class Test_OAS3(OAS3BaseTest):
         """
         # TODO: monkey testing
 
-        args = ([1,2,3],)
+        args = ([1, 2, 3],)
 
         j = self.JSON(*args)
-        assert j == {
-            'type': 'array',
-            'items': {
-                'type': 'integer'
-            }
-        }
+        assert j == {"type": "array", "items": {"type": "integer"}}
 
     def test_list_in_list(self):
         """
@@ -92,21 +81,12 @@ class Test_OAS3(OAS3BaseTest):
         """
         # TODO: monkey testing
 
-        args = ([
-            [1,2,3],
-            [4,5,6],
-            [7,8,9]
-        ],)
+        args = ([[1, 2, 3], [4, 5, 6], [7, 8, 9]],)
 
         j = self.JSON(*args)
         assert j == {
-            'type': 'array',
-            'items': {
-                'type': 'array',
-                'items': {
-                    'type': 'integer'
-                }
-            }
+            "type": "array",
+            "items": {"type": "array", "items": {"type": "integer"}},
         }
 
     def test_list_in_dict(self):
@@ -116,21 +96,12 @@ class Test_OAS3(OAS3BaseTest):
         """
         # TODO: monkey testing
 
-        args = ({
-            'a': [1,2,3],
-            'b': [4,5,6],
-            'c': [7,8,9]
-        },)
+        args = ({"a": [1, 2, 3], "b": [4, 5, 6], "c": [7, 8, 9]},)
 
         j = self.JSON(*args)
         assert j == {
-            'type': 'object',
-            'additionalProperties': {
-                'type': 'array',
-                'items': {
-                    'type': 'integer'
-                }
-            }
+            "type": "object",
+            "additionalProperties": {"type": "array", "items": {"type": "integer"}},
         }
 
     def test_simple_dict(self):
@@ -140,19 +111,10 @@ class Test_OAS3(OAS3BaseTest):
         """
         # TODO: monkey testing
 
-        args = ({
-            'a': 1,
-            'b': 2,
-            'c': 3
-        },)
+        args = ({"a": 1, "b": 2, "c": 3},)
 
         j = self.JSON(*args)
-        assert j == {
-            'type': 'object',
-            'additionalProperties': {
-                'type': 'integer'
-            }
-        }
+        assert j == {"type": "object", "additionalProperties": {"type": "integer"}}
 
     def test_dict_in_dict(self):
         """
@@ -161,33 +123,21 @@ class Test_OAS3(OAS3BaseTest):
         """
         # TODO: monkey testing
 
-        args = ({
-            'a': {
-                'd': 1,
-                'e': 2,
-                'f': 3
+        args = (
+            {
+                "a": {"d": 1, "e": 2, "f": 3},
+                "b": {"g": 4, "h": 5, "i": 6},
+                "c": {"j": 7, "k": 8, "l": 9},
             },
-            'b': {
-                'g': 4,
-                'h': 5,
-                'i': 6
-            },
-            'c': {
-                'j': 7,
-                'k': 8,
-                'l': 9
-            }
-        },)
+        )
 
         j = self.JSON(*args)
         assert j == {
-            'type': 'object',
-            'additionalProperties': {
-                'type': 'object',
-                'additionalProperties': {
-                    'type': 'integer'
-                }
-            }
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "additionalProperties": {"type": "integer"},
+            },
         }
 
     def test_dict_in_list(self):
@@ -197,31 +147,16 @@ class Test_OAS3(OAS3BaseTest):
         """
         # TODO: monkey testing
 
-        args = ([
-            {
-                'd': 1,
-                'e': 2,
-                'f': 3
-            },
-            {
-                'g': 4,
-                'h': 5,
-                'i': 6
-            },
-            {
-                'j': 7,
-                'k': 8,
-                'l': 9
-            }
-        ],)
+        args = (
+            [
+                {"d": 1, "e": 2, "f": 3},
+                {"g": 4, "h": 5, "i": 6},
+                {"j": 7, "k": 8, "l": 9},
+            ],
+        )
 
         j = self.JSON(*args)
         assert j == {
-            'type': 'array',
-            'items': {
-                'type': 'object',
-                'additionalProperties': {
-                    'type': 'integer'
-                }
-            }
+            "type": "array",
+            "items": {"type": "object", "additionalProperties": {"type": "integer"}},
         }

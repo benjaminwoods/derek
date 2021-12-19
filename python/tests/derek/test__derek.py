@@ -2,6 +2,7 @@ import pytest
 
 from derek._derek import Derek
 
+
 class Test_Initialization:
     def test_defaults(self):
         """
@@ -24,11 +25,12 @@ class Test_Initialization:
             "parent": parent,
             "children": [1, 2, 3],
             "value": [1, 2, 3],
-            "name": "some_node"
+            "name": "some_node",
         }
         node = Derek(**attributes)
-        for k,v in attributes.items():
+        for k, v in attributes.items():
             assert getattr(node, k) == v
+
 
 class TreeBaseTest:
     def check(self, obj, **kwargs):
@@ -37,12 +39,13 @@ class TreeBaseTest:
             # If obj is a subclass of any out of [list, dict]
             assert node.value is obj
 
-        if 'name' in kwargs:
-            assert node.name == kwargs['name']
-        elif 'parent' in kwargs:
-            assert node.parent is kwargs['parent']
+        if "name" in kwargs:
+            assert node.name == kwargs["name"]
+        elif "parent" in kwargs:
+            assert node.parent is kwargs["parent"]
 
         # TODO: check child nodes
+
 
 class Test_Tree(TreeBaseTest):
     def test_name(self):
@@ -53,9 +56,7 @@ class Test_Tree(TreeBaseTest):
         # TODO: upgrade to monkey test
 
         args = (3141,)
-        kwargs = {
-            "name": "some_node_name"
-        }
+        kwargs = {"name": "some_node_name"}
 
         self.check(*args, **kwargs)
 
@@ -77,9 +78,7 @@ class Test_Tree(TreeBaseTest):
         """
 
         args = (3141,)
-        kwargs = {
-            "parent": Derek()
-        }
+        kwargs = {"parent": Derek()}
 
         self.check(*args, **kwargs)
 
@@ -111,7 +110,7 @@ class Test_Tree(TreeBaseTest):
         """
         # TODO: monkey testing
 
-        args = ([1,2,3],)
+        args = ([1, 2, 3],)
 
         self.check(*args)
 
@@ -122,11 +121,7 @@ class Test_Tree(TreeBaseTest):
         """
         # TODO: monkey testing
 
-        args = ([
-            [1,2,3],
-            [4,5,6],
-            [7,8,9]
-        ],)
+        args = ([[1, 2, 3], [4, 5, 6], [7, 8, 9]],)
 
         self.check(*args)
 
@@ -137,11 +132,7 @@ class Test_Tree(TreeBaseTest):
         """
         # TODO: monkey testing
 
-        args = ({
-            'a': [1,2,3],
-            'b': [4,5,6],
-            'c': [7,8,9]
-        },)
+        args = ({"a": [1, 2, 3], "b": [4, 5, 6], "c": [7, 8, 9]},)
 
         self.check(*args)
 
@@ -152,11 +143,7 @@ class Test_Tree(TreeBaseTest):
         """
         # TODO: monkey testing
 
-        args = ({
-            'a': 1,
-            'b': 2,
-            'c': 3
-        },)
+        args = ({"a": 1, "b": 2, "c": 3},)
 
         self.check(*args)
 
@@ -167,23 +154,13 @@ class Test_Tree(TreeBaseTest):
         """
         # TODO: monkey testing
 
-        args = ({
-            'a': {
-                'd': 1,
-                'e': 2,
-                'f': 3
+        args = (
+            {
+                "a": {"d": 1, "e": 2, "f": 3},
+                "b": {"g": 4, "h": 5, "i": 6},
+                "c": {"j": 7, "k": 8, "l": 9},
             },
-            'b': {
-                'g': 4,
-                'h': 5,
-                'i': 6
-            },
-            'c': {
-                'j': 7,
-                'k': 8,
-                'l': 9
-            }
-        },)
+        )
 
         self.check(*args)
 
@@ -194,25 +171,16 @@ class Test_Tree(TreeBaseTest):
         """
         # TODO: monkey testing
 
-        args = ([
-            {
-                'd': 1,
-                'e': 2,
-                'f': 3
-            },
-            {
-                'g': 4,
-                'h': 5,
-                'i': 6
-            },
-            {
-                'j': 7,
-                'k': 8,
-                'l': 9
-            }
-        ],)
+        args = (
+            [
+                {"d": 1, "e": 2, "f": 3},
+                {"g": 4, "h": 5, "i": 6},
+                {"j": 7, "k": 8, "l": 9},
+            ],
+        )
 
         self.check(*args)
+
 
 class Test_Example:
     def test_non_iterable(self):
@@ -244,11 +212,7 @@ class Test_Example:
         """
         # TODO: monkey testing
 
-        obj = [
-            [1,2,3],
-            [4,5,6],
-            [7,8,9]
-        ]
+        obj = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
         node = Derek.tree(obj)
         node.example() == [[1]]
 
@@ -259,13 +223,9 @@ class Test_Example:
         """
         # TODO: monkey testing
 
-        obj = {
-            'a': [1,2,3],
-            'b': [4,5,6],
-            'c': [7,8,9]
-        }
+        obj = {"a": [1, 2, 3], "b": [4, 5, 6], "c": [7, 8, 9]}
         node = Derek.tree(obj)
-        node.example() == {'a':[1]}
+        node.example() == {"a": [1]}
 
     def test_simple_dict(self):
         """
@@ -274,13 +234,9 @@ class Test_Example:
         """
         # TODO: monkey testing
 
-        obj = {
-            'a': 1,
-            'b': 2,
-            'c': 3
-        }
+        obj = {"a": 1, "b": 2, "c": 3}
         node = Derek.tree(obj)
-        node.example() == {'a':1}
+        node.example() == {"a": 1}
 
     def test_dict_in_dict(self):
         """
@@ -290,24 +246,12 @@ class Test_Example:
         # TODO: monkey testing
 
         obj = {
-            'a': {
-                'd': 1,
-                'e': 2,
-                'f': 3
-            },
-            'b': {
-                'g': 4,
-                'h': 5,
-                'i': 6
-            },
-            'c': {
-                'j': 7,
-                'k': 8,
-                'l': 9
-            }
+            "a": {"d": 1, "e": 2, "f": 3},
+            "b": {"g": 4, "h": 5, "i": 6},
+            "c": {"j": 7, "k": 8, "l": 9},
         }
         node = Derek.tree(obj)
-        node.example() == {'a':{'d':1}}
+        node.example() == {"a": {"d": 1}}
 
     def test_dict_in_list(self):
         """
@@ -317,21 +261,9 @@ class Test_Example:
         # TODO: monkey testing
 
         obj = [
-            {
-                'd': 1,
-                'e': 2,
-                'f': 3
-            },
-            {
-                'g': 4,
-                'h': 5,
-                'i': 6
-            },
-            {
-                'j': 7,
-                'k': 8,
-                'l': 9
-            }
+            {"d": 1, "e": 2, "f": 3},
+            {"g": 4, "h": 5, "i": 6},
+            {"j": 7, "k": 8, "l": 9},
         ]
         node = Derek.tree(obj)
-        node.example() == [{'d':1}]
+        node.example() == [{"d": 1}]
