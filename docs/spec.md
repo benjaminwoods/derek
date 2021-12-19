@@ -33,6 +33,3 @@ Parsing works by walking along the tree using a pre-order walk.
             * run a callback that parses each child node (going to 2)
             * run an operation using that callback to determine how to consturct the JSON representation for the current node
             * return that representation.
-
-The JSON representation is then serialized depending on the format.
-(Currently, parsing and serialization are basically the same, except for the fact that serialization converts to string).
