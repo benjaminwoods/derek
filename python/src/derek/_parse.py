@@ -1,9 +1,11 @@
 import json
 
+from . import _typing
+
 
 class Parser:
     @classmethod
-    def oas2(cls, node):
+    def oas2(cls, node: "Derek"):
         """
         Convert a data structure, with :code:`node` as the root node,
         into OAS2 schema.
@@ -45,7 +47,7 @@ class Parser:
         return j
 
     @classmethod
-    def oas3(cls, node):
+    def oas3(cls, node: "Derek"):
         """
         Convert a data structure, with :code:`node` as the root node,
         into OAS3 schema. (Alias for OAS2.)
