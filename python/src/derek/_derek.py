@@ -2,6 +2,9 @@ import json
 
 from . import _parse
 
+from typing import Optional, Any, Iterable
+from . import _typing
+
 
 class Derek:
     """
@@ -13,23 +16,33 @@ class Derek:
     # TODO: Add docstrings
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
-    # TODO: Add typing
 
-    def __init__(self, parent=None, children=None, value=None, name=None):
+    def __init__(
+        self,
+        parent: Optional["Derek"] = None,
+        children: Optional[Iterable["Derek"]] = None,
+        value: Optional[Any] = None,
+        name: Optional[str] = None,
+    ) -> "Derek":
         self.parent = parent
         self.children = children
         self.value = value
         self.name = name
 
     @property
-    def parser(self):
+    def parser(self) -> _parse.Parser:
         """
         Return an instance of the parser class.
         """
         return _parse.Parser()
 
     @classmethod
-    def tree(cls, obj, parent=None, name=None):
+    def tree(
+        cls,
+        obj: _typing.JSON,
+        parent: Optional["Derek"] = None,
+        name: Optional[str] = None,
+    ) -> "Derek":
         """
         Create a tree.
         """
@@ -54,7 +67,7 @@ class Derek:
         self.name = name
         return self
 
-    def parse(self, format="oas3"):
+    def parse(self, format: str = "oas3") -> _typing.JSON:
         """
         Convert a tree of Derek nodes to a given format.
         """
@@ -64,7 +77,7 @@ class Derek:
         else:
             raise NotImplementedError
 
-    def serialize(self, format="oas3"):
+    def serialize(self, format: str = "oas3") -> str:
         """
         Convert tree to a string.
         """
@@ -75,7 +88,7 @@ class Derek:
         # TODO: handle other formats, not just OAS3
         return json.dumps({self.name or "untitled": j})
 
-    def example(self):
+    def example(self) -> _typing.JSON:
         """
         Generate example JSON from self.
         """
