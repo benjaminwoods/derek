@@ -60,7 +60,7 @@ You can use `.example()` to see a simple example item of data:
 You can produce an OAS2/OAS3 JSON schema from this data, too:
 
 ```python
->>> root_node.serialize(format='oas3')
+>>> root_node.parse(format='oas3')
 {
   "MyDataStructure": {
     "type": "array",
@@ -101,10 +101,10 @@ cg = CoinGeckoAPI()
 root_node = Derek.tree(cg.get_coins_list(), name='GetCoins')
 ```
 
-Serialize to get your schema:
+Parse to get your schema:
 
 ```python
->>> root_node.serialize(format='oas3')
+>>> root_node.parse(format='oas3')
 {
   "GetCoins": {
     "type": "array",
@@ -145,11 +145,9 @@ class PywhatDerek(Derek):
     def parser(self):
         return PywhatParser()
 
-    def serialize_to_yaml(self, *args, **kwargs):
+    def parse_to_yaml(self, *args, **kwargs):
         return yaml.dump(
-            json.loads(
-                self.serialize(*args, **kwargs)
-            )
+            self.parse(*args, **kwargs)
         )
 
 class PywhatParser(Parser):
@@ -195,7 +193,7 @@ Allowing for functionality like:
 root_node = PywhatDerek.tree({
     'data': ['17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem']
 }, name='Addresses')
-root_node.serialize_to_yaml()
+root_node.parse_to_yaml()
 ```
 
 returning:

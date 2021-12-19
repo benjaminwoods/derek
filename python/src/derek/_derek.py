@@ -72,21 +72,14 @@ class Derek:
         Convert a tree of Derek nodes to a given format.
         """
         format = format.lower()
-        if format == "oas3":
-            return self.parser.oas3(self)
+        if hasattr(self.parser, format):
+            parser = getattr(self.parser, format)
         else:
             raise NotImplementedError
 
-    def serialize(self, format: str = "oas3") -> str:
-        """
-        Convert tree to a string.
-        """
-
-        j = self.parse(format=format)
-        j["example"] = self.example()
-
-        # TODO: handle other formats, not just OAS3
-        return json.dumps({self.name or "untitled": j})
+        result = parser(self)
+        result["example"] = self.example()
+        return {self.name or "untitled": result}
 
     def example(self) -> _typing.JSON:
         """
