@@ -23,7 +23,7 @@ class Derek:
         children: Optional[Iterable["Derek"]] = None,
         value: Optional[Any] = None,
         name: Optional[str] = None,
-    ) -> Derek:
+    ) -> "Derek":
         self.parent = parent
         self.children = children
         self.value = value
@@ -42,7 +42,7 @@ class Derek:
         obj: _typing.JSON,
         parent: Optional["Derek"] = None,
         name: Optional[str] = None,
-    ) -> Derek:
+    ) -> "Derek":
         """
         Create a tree.
         """
