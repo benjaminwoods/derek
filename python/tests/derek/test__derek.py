@@ -1,6 +1,7 @@
 import pytest
 
 from derek._derek import Derek
+from derek._parse import Parser
 
 
 class Test_Initialization:
@@ -192,7 +193,45 @@ class Test_Example:
 
         obj = 3141
         node = Derek.tree(obj)
-        node.example() == obj
+        assert node.example() == obj
+
+    def test_none(self):
+        """
+        Make a Derek instance with value as None, then return an example.
+        """
+
+        node = Derek()
+        assert node.example() is None
+
+    def test_unusual_value(self):
+        """
+        Make a Derek instance with value as a bespoke instance, then return an
+        example.
+        """
+
+        class Unusual:
+            def __init__(self):
+                self.a = [1]
+                self.b = {4: 5}
+
+        obj = Unusual()
+        node = Derek(value=obj)
+        example = node.example()
+        assert isinstance(example, Unusual)
+        for k in example.__dict__.keys():
+            assert example.__dict__[k] == obj.__dict__[k]
+            assert example.__dict__[k] is not obj.__dict__[k]
+
+    def test_empty_list(self):
+        """
+        Make a Derek instance with value as [], then return an example.
+        """
+
+        obj = []
+        node = Derek(value=obj)
+        example = node.example()
+        assert example == obj
+        assert example is not obj
 
     def test_simple_list(self):
         """
@@ -203,7 +242,7 @@ class Test_Example:
 
         obj = [1, 2, 3]
         node = Derek.tree(obj)
-        node.example() == [1]
+        assert node.example() == [1]
 
     def test_list_in_list(self):
         """
@@ -214,7 +253,7 @@ class Test_Example:
 
         obj = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
         node = Derek.tree(obj)
-        node.example() == [[1]]
+        assert node.example() == [[1]]
 
     def test_list_in_dict(self):
         """
@@ -225,7 +264,18 @@ class Test_Example:
 
         obj = {"a": [1, 2, 3], "b": [4, 5, 6], "c": [7, 8, 9]}
         node = Derek.tree(obj)
-        node.example() == {"a": [1]}
+        assert node.example() == {"a": [1], "b": [4], "c": [7]}
+
+    def test_empty_dict(self):
+        """
+        Make a Derek instance with value as {}, then return an example.
+        """
+
+        obj = {}
+        node = Derek(value=obj)
+        example = node.example()
+        assert example == obj
+        assert example is not obj
 
     def test_simple_dict(self):
         """
@@ -236,7 +286,7 @@ class Test_Example:
 
         obj = {"a": 1, "b": 2, "c": 3}
         node = Derek.tree(obj)
-        node.example() == {"a": 1}
+        assert node.example() == {"a": 1, "b": 2, "c": 3}
 
     def test_dict_in_dict(self):
         """
@@ -251,7 +301,11 @@ class Test_Example:
             "c": {"j": 7, "k": 8, "l": 9},
         }
         node = Derek.tree(obj)
-        node.example() == {"a": {"d": 1}}
+        assert node.example() == {
+            "a": {"d": 1, "e": 2, "f": 3},
+            "b": {"g": 4, "h": 5, "i": 6},
+            "c": {"j": 7, "k": 8, "l": 9},
+        }
 
     def test_dict_in_list(self):
         """
@@ -266,4 +320,60 @@ class Test_Example:
             {"j": 7, "k": 8, "l": 9},
         ]
         node = Derek.tree(obj)
-        node.example() == [{"d": 1}]
+        assert node.example() == [{"d": 1, "e": 2, "f": 3}]
+
+
+class Test_Parser:
+    def test_parser_class(self):
+        """
+        Check if Derek.parser returns a Parser instance.
+        """
+
+        parser = Derek.parser
+        assert isinstance(parser, Parser)
+
+    def test_new_parser(self):
+        """
+        Check if Derek.parser return a new Parser instance each time.
+        """
+
+        assert Derek.parser is not Derek.parser
+
+
+class Test_Parse:
+    @pytest.fixture
+    def node(self):
+        obj = [
+            {"d": 1, "e": 2, "f": 3},
+            {"g": 4, "h": 5, "i": 6},
+            {"j": 7, "k": 8, "l": 9},
+        ]
+        return Derek.tree(obj)
+
+    def test_format_not_implemented(self, node):
+        """
+        Check if an unimplemented format raises correct Exception.
+        """
+        with pytest.raises(NotImplementedError):
+            node.parse(format="not_a_real_format")
+
+    def test_parse_oas3(self, node):
+        """
+        Check if Derek().parse (OAS3) produces expected result
+        """
+
+        j = node.parse()
+        assert j == {
+            "untitled": {
+                "example": [{"d": 1, "e": 2, "f": 3}],
+                "items": {
+                    "additionalProperties": {"type": "integer"},
+                    "type": "object",
+                },
+                "type": "array",
+            }
+        }
+
+    def test_parse_with_name(self):
+        node = Derek(value=1, name="test")
+        assert node.parse() == {"test": {"example": 1, "type": "integer"}}
