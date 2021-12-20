@@ -10,28 +10,35 @@ class Parser:
         Convert a data structure, with :code:`node` as the root node,
         into OAS2 schema.
         """
-        if isinstance(node.value, list):
-            # TODO: don't assume that all of the child nodes are of the same
-            # type.
+        if node.value == []:
+            j = {"type": "array", "items": {}, "maxItems": 0}
+        elif node.value == {}:
+            j = {"type": "object", "properties": {}}
+        elif isinstance(node.value, list) or isinstance(node.value, dict):
+            # OAS3 list/dict
 
-            # OAS3 list
-            if node.value == []:
-                j = {"type": "array", "items": {}, "maxItems": 0}
-            else:
-                j = {"type": "array", "items": cls.oas2(node.children[0])}
-        elif isinstance(node.value, dict):
-            # TODO: don't assume that all of the child nodes are of the same
-            # type.
+            # Parse each of the children
+            subschemas = [cls.oas2(c) for c in node.children]
 
-            # OAS3 dictionary
-            if node.value == {}:
-                # Cannot parse {}.
-                raise NotImplementedError
+            # Convert subschemas to string to make them hashable,
+            # then use set to find unique strings
+            unique = set(json.dumps(s) for s in subschemas)
+
+            # TODO: add a switch to use a "hash" approach for speed, instead
+
+            if len(unique) > 1:
+                # If multiple unique subschemas exist, use oneOf
+
+                oneOf = [json.loads(s) for s in unique]
+                internals = {"oneOf": oneOf}
             else:
-                j = {
-                    "type": "object",
-                    "additionalProperties": cls.oas2(node.children[0]),
-                }
+                # Just use the first one
+                internals = subschemas[0]
+
+            if isinstance(node.value, list):
+                j = {"type": "array", "items": internals}
+            else:
+                j = {"type": "object", "additionalProperties": internals}
         else:
             if isinstance(node.value, str):
                 j = {"type": "string"}

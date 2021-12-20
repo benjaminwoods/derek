@@ -127,8 +127,8 @@ class Test_OAS3(OAS3BaseTest):
 
         args = ({},)
 
-        with pytest.raises(NotImplementedError):
-            j = self.JSON(*args)
+        j = self.JSON(*args)
+        assert j == {"type": "object", "properties": {}}
 
     def test_simple_dict(self):
         """
@@ -201,3 +201,35 @@ class Test_OAS3(OAS3BaseTest):
         args = (Unusual(),)
         with pytest.raises(NotImplementedError):
             j = self.JSON(*args)
+
+    def test_oneOf_list(self):
+        """
+        Make a Derek instance with value as a list, where each element
+        is of a different type, then try to convert to OAS3 dictionary.
+        """
+
+        args = ([1, "a", 3.0],)
+
+        j = self.JSON(*args)
+        assert "items" in j
+        assert "oneOf" in j["items"]
+        for v in j["items"]["oneOf"]:
+            assert v in [{"type": "integer"}, {"type": "number"}, {"type": "string"}]
+        assert "type" in j
+        assert j["type"] == "array"
+
+    def test_oneOf_dict(self):
+        """
+        Make a Derek instance with value as a dictionary, where each value
+        is of a different type, then try to convert to OAS3 dictionary.
+        """
+
+        args = ({"a": 1, "b": "something", "c": 4.0},)
+
+        j = self.JSON(*args)
+        assert "additionalProperties" in j
+        assert "oneOf" in j["additionalProperties"]
+        for v in j["additionalProperties"]["oneOf"]:
+            assert v in [{"type": "integer"}, {"type": "number"}, {"type": "string"}]
+        assert "type" in j
+        assert j["type"] == "object"
