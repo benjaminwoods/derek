@@ -329,7 +329,7 @@ class Test_Parser:
         Check if Derek.parser returns a Parser instance.
         """
 
-        parser = Derek.parser
+        parser = Derek().parser
         assert isinstance(parser, Parser)
 
     def test_new_parser(self):
@@ -337,7 +337,7 @@ class Test_Parser:
         Check if Derek.parser return a new Parser instance each time.
         """
 
-        assert Derek.parser is not Derek.parser
+        assert Derek().parser is not Derek().parser
 
 
 class Test_Parse:
