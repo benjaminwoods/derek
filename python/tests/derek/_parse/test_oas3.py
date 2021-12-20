@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from derek._parse import Parser
 from derek._derek import Derek
 
@@ -17,7 +19,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_integer(self):
         """
         Try making a Derek tree from an integer,
-        then convert to OAS3 string.
+        then convert to OAS3 dictionary.
         """
         # TODO: upgrade to monkey test
 
@@ -29,7 +31,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_string(self):
         """
         Try making a Derek tree from a string,
-        then convert to OAS3 string.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -41,7 +43,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_float(self):
         """
         Try making a Derek tree from a float,
-        then convert to OAS3 string.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -53,7 +55,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_bool(self):
         """
         Try making a Derek tree from a bool,
-        then convert to OAS3 string.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -62,10 +64,22 @@ class Test_OAS3(OAS3BaseTest):
         j = self.JSON(*args)
         assert j == {"type": "boolean"}
 
+    def test_empty_list(self):
+        """
+        Try making a Derek tree from an empty list,
+        then convert to OAS3 dictionary.
+        """
+        # TODO: monkey testing
+
+        args = ([],)
+
+        j = self.JSON(*args)
+        assert j == {"type": "array", "items": {}, "maxItems": 0}
+
     def test_simple_list(self):
         """
         Try making a Derek tree from a simple list (depth 1),
-        without specifying the name of the root node.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -77,7 +91,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_list_in_list(self):
         """
         Try making a Derek tree from a list in list (depth 2),
-        without specifying the name of the root node.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -92,7 +106,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_list_in_dict(self):
         """
         Try making a Derek tree from a list in dict (depth 2),
-        without specifying the name of the root node.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -104,10 +118,22 @@ class Test_OAS3(OAS3BaseTest):
             "additionalProperties": {"type": "array", "items": {"type": "integer"}},
         }
 
+    def test_empty_dict(self):
+        """
+        Try making a Derek tree from an empty dict,
+        then convert to OAS3 dictionary.
+        """
+        # TODO: monkey testing
+
+        args = ({},)
+
+        with pytest.raises(NotImplementedError):
+            j = self.JSON(*args)
+
     def test_simple_dict(self):
         """
         Try making a Derek tree from a simple list (depth 1),
-        without specifying the name of the root node.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -119,7 +145,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_dict_in_dict(self):
         """
         Try making a Derek tree from a dict in dict (depth 2),
-        without specifying the name of the root node.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -143,7 +169,7 @@ class Test_OAS3(OAS3BaseTest):
     def test_dict_in_list(self):
         """
         Try making a Derek tree from a dict in list (depth 2),
-        without specifying the name of the root node.
+        then convert to OAS3 dictionary.
         """
         # TODO: monkey testing
 
@@ -160,3 +186,18 @@ class Test_OAS3(OAS3BaseTest):
             "type": "array",
             "items": {"type": "object", "additionalProperties": {"type": "integer"}},
         }
+
+    def test_unparseable_type(self):
+        """
+        Make a Derek instance with value as a bespoke instance, then try to
+        convert to OAS3 dictionary.
+        """
+
+        class Unusual:
+            def __init__(self):
+                self.a = [1]
+                self.b = {4: 5}
+
+        args = (Unusual(),)
+        with pytest.raises(NotImplementedError):
+            j = self.JSON(*args)

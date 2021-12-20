@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy as dcp
 
 from . import _parse
 
@@ -93,10 +94,7 @@ class Derek:
                 result = []
             else:
                 c = self.children[0]
-                if isinstance(c, Derek):
-                    v = c.example()
-                else:
-                    v = c
+                v = c.example()
                 result = [c if not isinstance(c, Derek) else c.example()]
         elif isinstance(self.value, dict):
             if self.value == {}:
@@ -107,6 +105,6 @@ class Derek:
                     for k, v in zip(self.value.keys(), self.children)
                 }
         else:
-            result = self.value
+            result = dcp(self.value)
 
         return result
