@@ -22,7 +22,7 @@ This isn't available on pip yet, but you can install this directly from
 the GitHub repo:
 
 ```bash
-pip install "git+https://github.com/benjaminwoods/derek.git@0.0.1#egg=derek_0.0.1&subdirectory=python"
+pip install "git+https://github.com/benjaminwoods/derek.git@0.0.1#egg=derek"
 ```
 
 ## What is Derek? <a name="what"></a>
