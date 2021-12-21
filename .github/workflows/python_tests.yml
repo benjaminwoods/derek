@@ -22,7 +22,7 @@ jobs:
       run: pip install -e python
     - name: Test with pytest
       run: >
-        pytest -c python/pyproject.toml
+        pytest
         --junitxml=artifacts/python/junit.xml --cov-report=
   Code-Coverage:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
       run: |
         pip install -r python/requirements/test.txt
         pip install coverage-badge
-        pytest -c python/pyproject.toml --cov-report=term
+        pytest --cov-report=term
     - name: Coverage badge
       run: |
         mkdir -p .badges/coverage
