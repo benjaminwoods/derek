@@ -20,18 +20,18 @@ class Derek:
 
     def __init__(
         self,
-        parent: Optional["Derek"] = None,
-        children: Optional[Iterable["Derek"]] = None,
+        parent: Optional[_typing.DerekType] = None,
+        children: Optional[Iterable[_typing.DerekType]] = None,
         value: Optional[Any] = None,
         name: Optional[str] = None,
-    ) -> "Derek":
+    ):
         self.parent = parent
         self.children = children
         self.value = value
         self.name = name
 
     @property
-    def parser(self) -> _parse.Parser:
+    def parser(self) -> _typing.ParserType:
         """
         Return an instance of the parser class.
         """
@@ -41,9 +41,9 @@ class Derek:
     def tree(
         cls,
         obj: _typing.JSON,
-        parent: Optional["Derek"] = None,
+        parent: Optional[_typing.DerekType] = None,
         name: Optional[str] = None,
-    ) -> "Derek":
+    ) -> _typing.DerekType:
         """
         Create a tree.
         """

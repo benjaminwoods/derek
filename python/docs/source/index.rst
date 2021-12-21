@@ -7,9 +7,4 @@ derek API
 .. autoclass:: derek.Parser
    :members:
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. autodata:: derek._typing.JSON
