@@ -8,8 +8,15 @@ else:
     JSON = Union[List[Dict[str, "JSON"]], Dict[str, "JSON"]]
     "Static type for JSON-serializable list/dict."
 
-DerekType = ForwardRef("derek.Derek")
-"Static type for Derek."
+if version_info >= (3, 7, 4):
+    DerekType = ForwardRef("derek.Derek")
+    "Static type for Derek."
 
-ParserType = ForwardRef("derek.Parser")
-"Static type for Parser."
+    ParserType = ForwardRef("derek.Parser")
+    "Static type for Parser."
+else:
+    DerekType = "derek.Derek"
+    "Static type for Derek."
+
+    ParserType = "derek.Parser"
+    "Static type for Parser."
