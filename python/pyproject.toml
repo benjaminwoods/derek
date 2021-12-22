@@ -1,34 +1,42 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "derek"
-version = "0.0.1.dev"
+version = "0.0.1"
 description = "Convert data structure to schema."
-readme = "README.md"
+readme = "README.rst"
 keywords = ["data", "schema", "convert", "analyze"]
 authors = [
   {name = 'Benjamin Woods', email = 'ben@bjqw.me'}
 ]
-license = {file = 'README.md'}
+license = {file = 'LICENSE'}
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Topic :: Database"
+    "Topic :: Database",
+    "Python :: 3.6",
+    "Python :: 3.7",
+    "Python :: 3.8",
+    "Python :: 3.9"
 ]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra --cov"
+addopts = "-ra"
 testpaths = [
-    "python/tests"
+    "tests"
 ]
 
 [tool.coverage.run]
 branch = true
 source = [
-    "python/src/derek"
+    "src/derek"
 ]
 omit = [
-    "python/src/derek/_typing.py"
+    "src/derek/_typing.py"
 ]
