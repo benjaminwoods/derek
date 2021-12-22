@@ -1,0 +1,29 @@
+{
+  "name": "derek",
+  "version": "0.0.2",
+  "description": "Convert data structure to schema.",
+  "directories": {
+    "doc": "docs"
+  },
+  "type": "module",
+  "exports": "./js/src/index.js",
+  "files": ["js/src/*.js"],
+  "scripts": {
+    "test": ";"
+  },
+  "repository": "git+https://github.com/benjaminwoods/derek.git",
+  "keywords": [
+    "data",
+    "schema",
+    "convert",
+    "analyze"
+  ],
+  "author": "Benjamin Woods",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benjaminwoods/derek/issues"
+  },
+  "homepage": "https://github.com/benjaminwoods/derek#readme",
+  "main": "./js/src/index.js",
+  "dependencies": {}
+}
