@@ -195,6 +195,7 @@ Parse to get your schema:
    print(json.dumps(j, indent=2))
 
 .. code:: json
+
    {
      "GetCoins": {
        "type": "array",
