@@ -1,8 +1,13 @@
+# Python
 .venvs
 .pytest_cache
 __pycache__
 *.egg-info
 python/docs/build
-
 .coverage
+
+# JS
+node_modules
+
+# All
 artifacts/

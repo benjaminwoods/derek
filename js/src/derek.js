@@ -1,89 +1,87 @@
-import { Parser } from './parse.js'
+import { Parser } from "./parse.js";
 
 class Derek {
-  constructor(parent=null, children=null, value=null, name=null) {
-    this.parent = parent
-    this.children = children
-    this.value = value
-    this.name = name
+  constructor(parent = null, children = null, value = null, name = null) {
+    this.parent = parent;
+    this.children = children;
+    this.value = value;
+    this.name = name;
   }
 
   get parser() {
-    return Parser
+    return Parser;
   }
 
-  static tree(obj, parent=null, name=null) {
+  static tree(obj, parent = null, name = null) {
     // TODO: return DerekTree (a subclass of Derek) instead of Derek.
-    let children
-    const self = new this()
+    let children;
+    const self = new this();
 
     if (obj instanceof Array) {
       // Make child nodes
-      children = obj.map(item => this.tree(item, self))
+      children = obj.map((item) => this.tree(item, self));
     } else if (obj instanceof Object) {
       // Make child nodes
-      children = Object.values(obj).map(item => this.tree(item, self))
+      children = Object.values(obj).map((item) => this.tree(item, self));
     } else {
       // Not iterable
-      children = null
+      children = null;
     }
 
-    self.parent = parent
-    self.children = children
-    self.value = obj
-    self.name = name
+    self.parent = parent;
+    self.children = children;
+    self.value = obj;
+    self.name = name;
 
-    return self
+    return self;
   }
 
-  parse(format="oas3") {
-    let parser, result
+  parse(format = "oas3") {
+    let parser, result;
 
-    format = format.toLowerCase()
+    format = format.toLowerCase();
 
     if (typeof this.parser[format] == "undefined") {
-      throw "Not yet supported."
+      throw "Not yet supported.";
     }
 
-    result = this.parser[format](this)
-    result.example = this.example()
+    result = this.parser[format](this);
+    result.example = this.example();
 
     return {
-      [this.name || "untitled"]: result
-    }
+      [this.name || "untitled"]: result,
+    };
   }
 
   example() {
     let result;
     if (this.value.constructor == Array) {
       if (this.value.length == 0) {
-        result = []
+        result = [];
       } else {
         let c, v;
 
-        c = this.children[0]
-        v = c.example()
-        result = [c instanceof Derek ? c.example() : c]
+        c = this.children[0];
+        v = c.example();
+        result = [c instanceof Derek ? c.example() : c];
       }
     } else if (this.value.constructor == Object) {
       if (Object.keys(this.value).length == 0) {
-        result = {}
+        result = {};
       } else {
         let keys, values;
-        keys = Object.keys(this.value),
-        values = this.children.map(
-          c => c instanceof Derek ? c.example() : c
-        )
+        (keys = Object.keys(this.value)),
+          (values = this.children.map((c) =>
+            c instanceof Derek ? c.example() : c
+          ));
 
-        result = Object.fromEntries(
-          keys.map((e,i) => [e,values[i]])
-        )
+        result = Object.fromEntries(keys.map((e, i) => [e, values[i]]));
       }
     } else {
-      result = JSON.parse(JSON.stringify(this.value))
+      result = JSON.parse(JSON.stringify(this.value));
     }
 
-    return result
+    return result;
   }
 }
 
