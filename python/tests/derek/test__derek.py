@@ -330,14 +330,7 @@ class Test_Parser:
         """
 
         parser = Derek().parser
-        assert isinstance(parser, Parser)
-
-    def test_new_parser(self):
-        """
-        Check if Derek.parser return a new Parser instance each time.
-        """
-
-        assert Derek().parser is not Derek().parser
+        assert parser is Parser
 
 
 class Test_Parse:
