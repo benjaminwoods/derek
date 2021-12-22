@@ -317,5 +317,5 @@ Derek is designed for ease of use. If you’re trying to use Derek
 functionality in a workflow and it feels like it should be easier to get
 your desired result, please make an issue.
 
-.. |License| image:: https://github.com/benjaminwoods/derek/blob/v0.0.1/.badges/license.svg
-.. |Python code coverage| image:: https://github.com/benjaminwoods/derek/blob/v0.0.1/.badges/coverage/python.svg
+.. |License| image:: https://github.com/benjaminwoods/derek/raw/v0.0.1/.badges/license.svg?sanitize=true
+.. |Python code coverage| image:: https://github.com/benjaminwoods/derek/raw/v0.0.1/.badges/coverage/python.svg?sanitize=true
