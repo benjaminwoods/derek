@@ -1,6 +1,6 @@
 # derek
 
-![MIT license](.badges/coverage/license.svg)
+![MIT license](.badges/license.svg)
 
 * Python:
 ![Python code coverage](.badges/coverage/python.svg)

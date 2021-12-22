@@ -9,6 +9,16 @@ class Parser:
         """
         Convert a data structure, with :code:`node` as the root node,
         into OAS2 schema.
+
+        Parameters
+        ----------
+        node: Derek
+            Root node of tree.
+
+        Returns
+        -------
+        j: :data:`derek._typing.JSON`
+            OAS2 schema, as JSON-serializable dictionary.
         """
         if node.value == []:
             j = {"type": "array", "items": {}, "maxItems": 0}
@@ -58,6 +68,16 @@ class Parser:
         """
         Convert a data structure, with :code:`node` as the root node,
         into OAS3 schema. (Alias for OAS2.)
+
+        Parameters
+        ----------
+        node: Derek
+            Root node of tree.
+
+        Returns
+        -------
+        j: :data:`derek._typing.JSON`
+            OAS2 schema, as JSON-serializable dictionary.
         """
 
         return cls.oas2(node)

@@ -12,9 +12,37 @@ class Derek:
     A node in a data structure.
 
     Contains information about itself, its parent node, and any child nodes.
+
+    Parameters
+    ----------
+    parent:
+        Parent node.
+
+        If specified, the Derek instance stores a reference to the parent
+        node.
+
+        The Derek instance is *not* added to the :code:`children` of the
+        parent node.
+
+        If not specified, the Derek instance has :code:`parent`
+        set to :code:`None`.
+    children:
+        Child nodes.
+
+        If specified, the Derek instance stores a reference to the children
+        nodes.
+
+        The Derek instance is *not* added as a :code:`parent` for any of the
+        child nodes.
+
+        If not specified, the Derek instance has :code:`children`
+        set to :code:`None`.
+    value: :data:`derek._typing.JSON`
+        A JSON-serializable dictionary/list.
+    name:
+        Name of the returned Derek instance.
     """
 
-    # TODO: Add docstrings
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
 
@@ -34,6 +62,11 @@ class Derek:
     def parser(self) -> _typing.ParserType:
         """
         Return an instance of the parser class.
+
+        Returns
+        -------
+        derek.Parser
+            Instance of the parser class.
         """
         return _parse.Parser()
 
@@ -45,7 +78,28 @@ class Derek:
         name: Optional[str] = None,
     ) -> _typing.DerekType:
         """
-        Create a tree.
+        Create a tree representation of :code:`obj`.
+
+        Parameters
+        ----------
+        obj: :data:`derek._typing.JSON`
+            A JSON-serializable dictionary/list.
+        parent
+            Parent node to attach subtree to.
+
+            If specified, the returned Derek instance is attached as a child
+            of the node.
+
+            If not specified, the returned Derek instance has :code:`parent`
+            set to :code:`None`.
+        name:
+            Name of the returned Derek instance.
+
+        Returns
+        -------
+        Tree representation of :code:`obj`, as a Derek instance.
+
+        :code:`obj` is identical (same :code:`id`) to `self.value`.
         """
 
         # TODO: return DerekTree (a subclass of Derek) instead of Derek.
@@ -71,6 +125,16 @@ class Derek:
     def parse(self, format: str = "oas3") -> _typing.JSON:
         """
         Convert a tree of Derek nodes to a given format.
+
+        Parameters
+        ----------
+        format
+            Output format.
+
+        Returns
+        -------
+        j: :data:`derek._typing.JSON`
+            A JSON-serializable dictionary/list.
         """
         format = format.lower()
         if hasattr(self.parser, format):
@@ -84,7 +148,15 @@ class Derek:
 
     def example(self) -> _typing.JSON:
         """
-        Generate example JSON from self.
+        Generate example JSON-serializable dictionary from self.
+
+        The example yields the same schema as a tree created
+        with self.value.
+
+        Returns
+        -------
+        j: :data:`derek._typing.JSON`
+            Example, as a JSON-serializable dictionary.
         """
         # TODO: don't assume that all of the child nodes are of the same
         # type.
