@@ -39,8 +39,7 @@ class Parser:
             if len(unique) > 1:
                 # If multiple unique subschemas exist, use oneOf
 
-                oneOf = [json.loads(s) for s in unique]
-                internals = {"oneOf": oneOf}
+                internals = {"oneOf": [json.loads(s) for s in unique]}
             else:
                 # Just use the first one
                 internals = subschemas[0]
