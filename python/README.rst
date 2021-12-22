@@ -1,9 +1,9 @@
 derek
 =====
 
-|License|
+*(Python implementation)*
 
--  Python: |Python code coverage|
+|License| |Python code coverage|
 
 Tools for converting data into schema.
 
