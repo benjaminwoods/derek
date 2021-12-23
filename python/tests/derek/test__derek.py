@@ -329,7 +329,7 @@ class Test_Parser:
         Check if Derek.parser returns a Parser.
         """
 
-        parser = Derek.parser
+        parser = Derek().parser
         assert parser is Parser
 
 
