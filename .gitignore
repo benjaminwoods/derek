@@ -8,6 +8,7 @@ python/docs/build
 
 # JS
 node_modules
+/coverage
 
 # All
 artifacts/

@@ -1,4 +1,4 @@
-import { Parser } from "./parse.js";
+import { Parser } from "./parse.mjs";
 
 class Derek {
   constructor(parent = null, children = null, value = null, name = null) {
@@ -54,8 +54,9 @@ class Derek {
   }
 
   example() {
-    let result;
-    if (this.value.constructor == Array) {
+    let result = null;
+    if (this.value === null) {
+    } else if (this.value.constructor == Array) {
       if (this.value.length == 0) {
         result = [];
       } else {
@@ -77,10 +78,16 @@ class Derek {
 
         result = Object.fromEntries(keys.map((e, i) => [e, values[i]]));
       }
+    } else if (this.value instanceof Object) {
+      result = Object.assign(
+        new this.value.constructor(),
+        JSON.parse(JSON.stringify(this.value))
+      );
     } else {
+      // NOTE: This won't handle custom subclasses of non-Object
+      // JavaScript builtins
       result = JSON.parse(JSON.stringify(this.value));
     }
-
     return result;
   }
 }
