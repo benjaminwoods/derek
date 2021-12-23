@@ -11,7 +11,8 @@
     "js/src/*.mjs"
   ],
   "scripts": {
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "coverage": "yarn test --collectCoverage && istanbul-cobertura-badger -b js -d .badges/coverage"
   },
   "repository": "git+https://github.com/benjaminwoods/derek.git",
   "keywords": [
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
+    "istanbul-cobertura-badger": "^1.3.1",
     "jest": "^27.4.5",
     "prettier": "^2.5.1"
   },
@@ -52,6 +54,7 @@
     ],
     "coverageReporters": [
       "lcov",
+      "cobertura",
       "text"
     ],
     "transform": {

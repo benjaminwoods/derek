@@ -8,7 +8,7 @@ jobs:
         python-version: [3.6, 3.7, 3.8, 3.9]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python {{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -44,7 +44,6 @@ jobs:
       - name: Run coverage
         run: |
           pip install -r python/requirements/test.txt
-          pip install coverage-badge
           pushd .
           cd python
           coverage run -m pytest && coverage report -m && mv .coverage ..
@@ -53,6 +52,7 @@ jobs:
         run: |
           mkdir -p .badges/coverage
           rm -f .badges/coverage/python.svg
+          pip install coverage-badge
           coverage-badge -o .badges/coverage/python.svg
       - name: Check if badge updated
         id: check_badge
