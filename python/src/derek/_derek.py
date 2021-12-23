@@ -46,6 +46,8 @@ class Derek:
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
 
+    __slots__ = "parent", "children", "value", "name"
+
     def __init__(
         self,
         parent: Optional[_typing.DerekType] = None,
