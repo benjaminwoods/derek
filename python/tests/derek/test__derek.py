@@ -326,7 +326,7 @@ class Test_Example:
 class Test_Parser:
     def test_parser_class(self):
         """
-        Check if Derek.parser returns a Parser instance.
+        Check if Derek.parser returns a Parser.
         """
 
         parser = Derek().parser

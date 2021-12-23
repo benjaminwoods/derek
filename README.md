@@ -2,8 +2,10 @@
 
 ![MIT license](.badges/license.svg)
 
-* Python:
-![Python code coverage](.badges/coverage/python.svg)
+- Python:
+  ![Python code coverage](.badges/coverage/python.svg)
+- JavaScript (Node.js)
+  ![Javascript code coverage](.badges/coverage/js.svg)
 
 Tools for converting data into schema.
 
@@ -11,15 +13,15 @@ Tools for converting data into schema.
 
 1. [Installation](#installation)
 2. [What is Derek?](#what-is-derek-)
-    1. [Document data structures](#derek-documents-data-structures-)
-    2. [Extract schemas from APIs](#derek-extracts-schemas-from-apis)
-    3. [Really lightweight](#derek-is-really-lightweight)
-    4. [Extensible](#derek-is-extensible)
-    5. [KISS](#derek-is-straightforward-)
+   1. [Document data structures](#derek-documents-data-structures-)
+   2. [Extract schemas from APIs](#derek-extracts-schemas-from-apis)
+   3. [Really lightweight](#derek-is-really-lightweight)
+   4. [Extensible](#derek-is-extensible)
+   5. [KISS](#derek-is-straightforward-)
 3. [Documentation](docs/index.md)
-    1. [Features](docs/features.md)
-    2. [Specification](docs/spec.md)
-    3. [API](docs/spec.md)
+   1. [Features](docs/features.md)
+   2. [Specification](docs/spec.md)
+   3. [API](docs/spec.md)
 
 ## Installation
 
@@ -29,6 +31,22 @@ You can install this from pip:
 
 ```bash
 pip install derek
+```
+
+### Javascript (Node.js)
+
+You can install this from git:
+
+> Yarn
+
+```bash
+yarn add https://github.com/benjaminwoods/derek#dev
+```
+
+> npm
+
+```bash
+npm i https://github.com/benjaminwoods/derek#dev
 ```
 
 ## What is Derek? <a name="what"></a>
@@ -74,6 +92,7 @@ j = root_node.parse(format='oas3')
 import json
 print(json.dumps(j, indent=2))
 ```
+
 ```json
 {
   "MyDataStructure": {
@@ -109,12 +128,8 @@ print(json.dumps(j, indent=2))
     },
     "example": [
       {
-        "some": [
-          1.0
-        ],
-        "data": [
-          3.4
-        ]
+        "some": [1.0],
+        "data": [3.4]
       }
     ]
   }
@@ -128,25 +143,26 @@ convert this structure to an OAS3-compliant data schema.
 import yaml
 print(yaml.dump(j))
 ```
+
 ```yaml
 MyDataStructure:
   example:
-  - data:
-    - 3.4
-    some:
-    - 1.0
+    - data:
+        - 3.4
+      some:
+        - 1.0
   items:
     additionalProperties:
       oneOf:
-      - items:
-          type: number
-        type: array
-      - items:
-          oneOf:
-          - type: number
-          - type: integer
-          - type: string
-        type: array
+        - items:
+            type: number
+          type: array
+        - items:
+            oneOf:
+              - type: number
+              - type: integer
+              - type: string
+          type: array
     type: object
   type: array
 ```
@@ -172,6 +188,7 @@ j = root_node.parse(format='oas3')
 import json
 print(json.dumps(j, indent=2))
 ```
+
 ```json
 {
   "GetCoins": {
@@ -277,7 +294,7 @@ Addresses:
     type: array
   example:
     data:
-    - 17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem
+      - 17VZNX1SN5NtKa8UQFxwQbFeFc3iqRYhem
   type: object
 ```
 
