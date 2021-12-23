@@ -4,6 +4,8 @@ from . import _typing
 
 
 class Parser:
+    __slots__ = tuple()
+
     @classmethod
     def oas2(cls, node: _typing.DerekType):
         """
