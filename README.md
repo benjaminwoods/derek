@@ -4,6 +4,8 @@
 
 - Python:
   ![Python code coverage](.badges/coverage/python.svg)
+- JavaScript (Node.js)
+  ![Javascript code coverage](.badges/coverage/js.svg)
 
 Tools for converting data into schema.
 
@@ -29,6 +31,22 @@ You can install this from pip:
 
 ```bash
 pip install derek
+```
+
+### Javascript (Node.js)
+
+You can install this from git:
+
+> Yarn
+
+```bash
+yarn add https://github.com/benjaminwoods/derek#dev
+```
+
+> npm
+
+```bash
+npm i https://github.com/benjaminwoods/derek#dev
 ```
 
 ## What is Derek? <a name="what"></a>
