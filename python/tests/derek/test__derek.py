@@ -336,11 +336,7 @@ class Test_Parser:
 class Test_Parse:
     @pytest.fixture
     def node(self):
-        obj = [
-            {"d": 1, "e": 2, "f": 3},
-            {"g": 4, "h": 5, "i": 6},
-            {"j": 7, "k": 8, "l": 9},
-        ]
+        obj = [{"a": 1, "b": "b1", "c": 3.0}, {"a": 4, "b": ["b2"]}]
         return Derek.tree(obj)
 
     def test_format_not_implemented(self, node):
@@ -350,20 +346,102 @@ class Test_Parse:
         with pytest.raises(NotImplementedError):
             node.parse(format="not_a_real_format")
 
-    def test_parse_oas3(self, node):
+    def test_parse_oas3_permissive(self, node):
         """
-        Check if Derek().parse (OAS3) produces expected result
+        Check if Derek().parse (OAS3) produces expected result for
+        "permissive" strategy
         """
 
-        j = node.parse()
+        j = node.parse("oas3", strategy="permissive")
+
         assert j == {
             "untitled": {
-                "example": [{"d": 1, "e": 2, "f": 3}],
-                "items": {
-                    "additionalProperties": {"type": "integer"},
-                    "type": "object",
-                },
                 "type": "array",
+                "items": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": {
+                                "oneOf": [
+                                    {"type": "array", "items": {"type": "string"}},
+                                    {"type": "integer"},
+                                ]
+                            },
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": {
+                                "oneOf": [
+                                    {"type": "integer"},
+                                    {"type": "number"},
+                                    {"type": "string"},
+                                ]
+                            },
+                        },
+                    ]
+                },
+                "example": [{"a": 1, "b": "b1", "c": 3.0}],
+            }
+        }
+
+    def test_parse_oas3_restricted(self, node):
+        """
+        Check if Derek().parse (OAS3) produces expected result for
+        "restricted" strategy
+        """
+
+        j = node.parse("oas3", strategy="restricted")
+        assert j == {
+            "untitled": {
+                "type": "array",
+                "items": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "a": {"type": "integer"},
+                                "b": {"type": "array", "items": {"type": "string"}},
+                            },
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "a": {"type": "integer"},
+                                "b": {"type": "string"},
+                                "c": {"type": "number"},
+                            },
+                        },
+                    ]
+                },
+                "example": [{"a": 1, "b": "b1", "c": 3.0}],
+            }
+        }
+
+    def test_parse_oas3_inner_join(self, node):
+        """
+        Check if Derek().parse (OAS3) produces expected result for
+        "inner_join" strategy
+        """
+
+        j = node.parse("oas3", strategy="inner_join")
+        assert j == {
+            "untitled": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "a": [{"type": "integer"}],
+                        "b": {
+                            "oneOf": [
+                                {"type": "string"},
+                                {"type": "array", "items": {"type": "string"}},
+                            ]
+                        },
+                        "c": [{"type": "number"}],
+                    },
+                    "required": ["a", "b"],
+                },
+                "example": [{"a": 1, "b": "b1", "c": 3.0}],
             }
         }
 

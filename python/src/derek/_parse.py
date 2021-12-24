@@ -150,7 +150,7 @@ class Parser:
             if strategy in ["permissive", "restricted"]:
                 # Convert subschemas to string to make them hashable,
                 # then use set to find unique strings
-                unique = set(json.dumps(s) for s in subschemas)
+                unique = sorted(set(json.dumps(s) for s in subschemas))
 
                 # TODO: add a switch to use a "hash" approach for speed, instead
 
