@@ -8,7 +8,7 @@ from ._oas2 import oas2 as _oas2
 class Parser:
     __slots__ = tuple()
 
-    oas2 = classmethod(_oas2)
+    oas2 = staticmethod(_oas2)
 
     @classmethod
     def oas3(cls, node: _typing.DerekType, strategy: str = "permissive"):
