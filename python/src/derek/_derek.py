@@ -46,6 +46,8 @@ class Derek:
     # TODO: Add reload method
     # TODO: Add checkIntegrity method
 
+    __slots__ = "parent", "children", "value", "name"
+
     def __init__(
         self,
         parent: Optional[_typing.DerekType] = None,
@@ -59,16 +61,16 @@ class Derek:
         self.name = name
 
     @property
-    def parser(self) -> _typing.ParserType:
+    def parser(self) -> type:
         """
-        Return an instance of the parser class.
+        Return the parser class.
 
         Returns
         -------
-        derek.Parser
-            Instance of the parser class.
+        type
+            The parser class.
         """
-        return _parse.Parser()
+        return _parse.Parser
 
     @classmethod
     def tree(
