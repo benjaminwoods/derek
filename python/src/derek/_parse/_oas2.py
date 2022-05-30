@@ -157,84 +157,110 @@ def oas2(node: _typing.DerekType, strategy: str = "permissive"):
 
 def _oas2_list(node, strategy):
     if strategy in ["permissive", "restricted"]:
-        schema = _get_unique_subschemas(node, strategy)
+        subschemas = _get_subschemas(node, strategy)
+        subschemas = _unique_schemas(subschemas)
+        schema = _oneOf(subschemas)
         j = {"type": "array", "items": schema}
     elif strategy == "inner_join":
-        schema = _get_merged_subschemas(node, strategy)
+        subschemas = _get_subschemas(node, strategy)
+        subschemas = _merge_schemas(subschemas)
+        schema = _oneOf(subschemas)
         j = {"type": "array", "items": schema}
     return j
 
 
 def _oas2_dict(node, strategy):
     if strategy == "permissive":
-        schema = _get_unique_subschemas(node, strategy)
+        subschemas = _get_subschemas(node, strategy)
+        schema = _oneOf(subschemas)
         j = {"type": "object", "additionalProperties": schema}
     elif strategy in ["restricted", "inner_join"]:
-        subschemas = [oas2(c, strategy) for c in node.children]
-        j = {"type": "object", "properties": dict(zip(node.value.keys(), subschemas))}
+        subschemas = _get_subschemas(node, strategy)
+        subschemas = _merge_schemas(subschemas)
+        schema = dict(zip(node.value.keys(), subschemas))
+        j = {"type": "object", "properties": schema}
     return j
 
 
-def _get_unique_subschemas(node, strategy):
+def _get_subschemas(node, strategy):
     # Parse each of the children
     subschemas = [oas2(c, strategy) for c in node.children]
-
-    # Convert subschemas to string to make them hashable,
-    # then use set to find unique strings
-    unique = sorted(set(json.dumps(s) for s in subschemas))
-
-    # TODO: add a switch to use a "hash" approach for speed, instead
-
-    if len(unique) > 1:
-        # If multiple unique subschemas exist, use oneOf
-
-        schema = {"oneOf": [json.loads(s) for s in unique]}
-    else:
-        # Just use the first one
-        schema = subschemas[0]
-
-    return schema
+    return subschemas
 
 
-def _get_merged_subschemas(node, strategy):
-    # Parse each of the children
-    subschemas = [oas2(c, strategy) for c in node.children]
+def _merge_schemas(schemas):
+    schemas_split = _split_schemas_by_type(schemas)
 
-    merging = {}
+    merged = []
+    objects = schemas_split.get("object", [])
+    non_objects = [
+        s for k, schemas in schemas_split.items() for s in schemas if k != "object"
+    ]
+
+    if len(objects) > 0:
+        merged.append(_merge_objects(objects))
+    if len(non_objects) > 0:
+        merged.extend(_unique_schemas(non_objects))
+
+    return merged
+
+
+def _merge_objects(schemas):
+    merged = {"type": "object"}
+
     count = {}
-    for s in subschemas:
-        if s["type"] == "object":
-            for k, v in s["properties"].items():
-                if k not in merging:
-                    count[k] = 1
-                    merging[k] = [v]
-                else:
-                    count[k] += 1
-                    if v not in merging[k]:
-                        merging[k].append(v)
-
-    items = []
-    properties = {k: (v if len(v) == 1 else {"oneOf": v}) for k, v in merging.items()}
+    properties = {}
+    for s in schemas:
+        for k, v in s.get("properties", {}).items():
+            if k not in properties:
+                count[k] = 0
+                properties[k] = []
+            count[k] += 1
+            if v not in properties[k]:
+                properties[k].append(v)
     if len(properties) > 0:
-        merged_objects = {
-            "type": "object",
-            "properties": {
-                k: (v if len(v) == 1 else {"oneOf": v}) for k, v in merging.items()
-            },
-        }
-        required = [k for k in merging.keys() if count[k] == len(node.children)]
-        if len(required) > 0:
-            merged_objects["required"] = required
-        items.append(merged_objects)
+        merged["properties"] = {k: _oneOf(v) for k, v in properties.items()}
+    required = [k for k in properties.keys() if count[k] == len(schemas)]
+    if len(required) > 0:
+        merged["required"] = required
 
-    other_unique = set(json.dumps(s) for s in subschemas if s["type"] != "object")
+    for k, v in list(merged.items()):
+        if len(v) == 0:
+            merged.pop(k)
 
-    if len(other_unique) > 0:
-        items.extend(json.loads(s) for s in other_unique)
+    return merged
 
-    if len(items) > 1:
-        schema = {"oneOf": items}
+
+def _oneOf(schemas):
+    unique = _unique_schemas(schemas, ordered=True)
+    return unique[0] if len(unique) <= 1 else {"oneOf": unique}
+
+
+def _unique_schemas(schemas, ordered=False):
+    # Convert schemas to string to make them hashable,
+    # then use set to find unique strings
+
+    if ordered:
+        unique = []
+        for i, s in enumerate(map(json.dumps, schemas)):
+            schema = schemas[i]
+            if schema not in unique:
+                unique.append(schema)
+
+        return unique
     else:
-        schema = items[0]
+        return list(map(json.loads, set(map(json.dumps, schemas))))
 
-    return schema
+
+def _split_schemas_by_type(schemas):
+    """
+    Split schemas into different types.
+    """
+
+    collection = {}
+    for s in schemas:
+        subschema_type = s["type"]
+        if subschema_type not in collection:
+            collection[subschema_type] = []
+        collection[subschema_type].append(s)
+    return collection
