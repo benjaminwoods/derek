@@ -363,8 +363,9 @@ class Test_Parse:
                             "type": "object",
                             "additionalProperties": {
                                 "oneOf": [
-                                    {"type": "array", "items": {"type": "string"}},
                                     {"type": "integer"},
+                                    {"type": "string"},
+                                    {"type": "number"},
                                 ]
                             },
                         },
@@ -373,8 +374,7 @@ class Test_Parse:
                             "additionalProperties": {
                                 "oneOf": [
                                     {"type": "integer"},
-                                    {"type": "number"},
-                                    {"type": "string"},
+                                    {"type": "array", "items": {"type": "string"}},
                                 ]
                             },
                         },
@@ -400,15 +400,15 @@ class Test_Parse:
                             "type": "object",
                             "properties": {
                                 "a": {"type": "integer"},
-                                "b": {"type": "array", "items": {"type": "string"}},
+                                "b": {"type": "string"},
+                                "c": {"type": "number"},
                             },
                         },
                         {
                             "type": "object",
                             "properties": {
                                 "a": {"type": "integer"},
-                                "b": {"type": "string"},
-                                "c": {"type": "number"},
+                                "b": {"type": "array", "items": {"type": "string"}},
                             },
                         },
                     ]
@@ -430,14 +430,14 @@ class Test_Parse:
                 "items": {
                     "type": "object",
                     "properties": {
-                        "a": [{"type": "integer"}],
+                        "a": {"type": "integer"},
                         "b": {
                             "oneOf": [
                                 {"type": "string"},
                                 {"type": "array", "items": {"type": "string"}},
                             ]
                         },
-                        "c": [{"type": "number"}],
+                        "c": {"type": "number"},
                     },
                     "required": ["a", "b"],
                 },

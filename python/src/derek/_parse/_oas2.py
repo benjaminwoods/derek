@@ -234,7 +234,7 @@ def _oas2_list(node, strategy):
     """
     if strategy in ["permissive", "restricted"]:
         subschemas = _get_subschemas(node, strategy)
-        subschemas = _unique_schemas(subschemas)
+        subschemas = _unique_schemas(subschemas, ordered=True)
         schema = _oneOf(subschemas)
         j = {"type": "array", "items": schema}
     elif strategy == "inner_join":
@@ -265,19 +265,13 @@ def _oas2_dict(node, strategy):
 
     .. code-block:: python
 
-       [
-         {
-           "a": A,
-           "b": B1,
-           "c": C
-         },
-         {
-           "a": A,
-           "b": B2
-         }
-       ]
+       {
+         "a": A,
+         "b": B1,
+         "c": C
+       }
 
-    with sub-JSONs, :code:`A`, :code:`B1`, :code:`B2` and :code:`C`,
+    with sub-JSONs, :code:`A`, :code:`B1`, and :code:`C`,
 
     * If "permissive" (default), assume that key names can be freely
       chosen, and that each corresponding value can be freely chosen
@@ -292,22 +286,9 @@ def _oas2_dict(node, strategy):
       .. code-block:: python
 
          {
-           "type": "array",
-           "items": {
-             "oneOf": [
-               {
-                 "type": "object",
-                 "additionalProperties": {
-                   "oneOf": [schema_A, schema_B1, schema_C]
-                 }
-               },
-               {
-                 "type": "object",
-                 "additionalProperties": {
-                   "oneOf": [schema_A, schema_B2]
-                 }
-               }
-             ]
+           "type": "object",
+           "additionalProperties": {
+             "oneOf": [schema_A, schema_B1, schema_C]
            }
          }
 
@@ -322,25 +303,11 @@ def _oas2_dict(node, strategy):
       .. code-block:: python
 
          {
-           "type": "array",
-           "items": {
-             "oneOf": [
-               {
-                 "type": "object",
-                 "properties": {
-                   "a": schema_A,
-                   "b": schema_B1,
-                   "c": schema_C
-                 }
-               },
-               {
-                 "type": "object",
-                 "properties": {
-                   "a": schema_A,
-                   "b": schema_B2
-                 }
-               }
-             ]
+           "type": "object",
+           "properties": {
+             "a": schema_A,
+             "b": schema_B1,
+             "c": schema_C
            }
          }
 
@@ -361,17 +328,11 @@ def _oas2_dict(node, strategy):
       .. code-block:: python
 
          {
-           "type": "array",
-           "items": {
-             "type": "object",
-             "properties": {
-               "a": schema_A,
-               "b": {
-                 "oneOf": [schema_B1, schema_B2]
-               },
-               "c": schema_C
-             },
-             "required": ["a", "b"]
+           "type": "object",
+           "properties": {
+             "a": schema_A,
+             "b": schema_B1,
+             "c": schema_C
            }
          }
     """
@@ -381,7 +342,6 @@ def _oas2_dict(node, strategy):
         j = {"type": "object", "additionalProperties": schema}
     elif strategy in ["restricted", "inner_join"]:
         subschemas = _get_subschemas(node, strategy)
-        subschemas = _merge_schemas(subschemas)
         schema = dict(zip(node.value.keys(), subschemas))
         j = {"type": "object", "properties": schema}
     return j
@@ -439,7 +399,7 @@ def _merge_schemas(schemas):
     if len(objects) > 0:
         merged.append(_merge_objects(objects))
     if len(non_objects) > 0:
-        merged.extend(_unique_schemas(non_objects))
+        merged.extend(_unique_schemas(non_objects, ordered=True))
 
     return merged
 
