@@ -274,3 +274,135 @@ class Test__oas2_list:
                 ]
             },
         }
+
+
+class Test__get_subschemas:
+    def test_permissive(self, node):
+        result = _oas2._get_subschemas(node, strategy="permissive")
+
+        assert result == [
+            {
+                "additionalProperties": {
+                    "oneOf": [
+                        {"type": "integer"},
+                        {"type": "string"},
+                        {"type": "number"},
+                    ]
+                },
+                "type": "object",
+            },
+            {
+                "additionalProperties": {
+                    "oneOf": [
+                        {"type": "integer"},
+                        {"items": {"type": "string"}, "type": "array"},
+                    ]
+                },
+                "type": "object",
+            },
+            {
+                "items": {"oneOf": [{"type": "integer"}, {"type": "number"}]},
+                "type": "array",
+            },
+        ]
+
+    def test_restricted(self, node):
+        result = _oas2._get_subschemas(node, strategy="restricted")
+
+        assert result == [
+            {
+                "properties": {
+                    "a": {"type": "integer"},
+                    "b": {"type": "string"},
+                    "c": {"type": "number"},
+                },
+                "type": "object",
+            },
+            {
+                "properties": {
+                    "a": {"type": "integer"},
+                    "b": {"items": {"type": "string"}, "type": "array"},
+                },
+                "type": "object",
+            },
+            {
+                "items": {"oneOf": [{"type": "integer"}, {"type": "number"}]},
+                "type": "array",
+            },
+        ]
+
+    def test_inner_join(self, node):
+        result = _oas2._get_subschemas(node, strategy="inner_join")
+
+        assert result == [
+            {
+                "properties": {
+                    "a": {"type": "integer"},
+                    "b": {"type": "string"},
+                    "c": {"type": "number"},
+                },
+                "type": "object",
+            },
+            {
+                "properties": {
+                    "a": {"type": "integer"},
+                    "b": {"items": {"type": "string"}, "type": "array"},
+                },
+                "type": "object",
+            },
+            {
+                "items": {"oneOf": [{"type": "integer"}, {"type": "number"}]},
+                "type": "array",
+            },
+        ]
+
+
+def test__merge_schemas(schemas):
+    merged = _oas2._merge_schemas(schemas)
+    assert merged == [
+        {"type": "object"},
+        {"type": "string"},
+        {
+            "items": {"oneOf": [{"type": "number"}, {"type": "integer"}]},
+            "type": "array",
+        },
+    ]
+
+
+def test__merge_objects(schemas):
+    merged = _oas2._merge_objects(schemas)
+    assert merged == {"type": "object"}
+
+
+def test__split_schemas_by_type(schemas):
+    split = _oas2._split_schemas_by_type(schemas)
+    assert split == {
+        "array": [
+            {
+                "items": {"oneOf": [{"type": "number"}, {"type": "integer"}]},
+                "type": "array",
+            }
+        ],
+        "object": [
+            {
+                "additionalProperties": {
+                    "oneOf": [
+                        {"type": "integer"},
+                        {"type": "number"},
+                        {"type": "string"},
+                    ]
+                },
+                "type": "object",
+            },
+            {
+                "additionalProperties": {
+                    "oneOf": [
+                        {"items": {"type": "string"}, "type": "array"},
+                        {"type": "integer"},
+                    ]
+                },
+                "type": "object",
+            },
+        ],
+        "string": [{"type": "string"}, {"type": "string"}],
+    }
