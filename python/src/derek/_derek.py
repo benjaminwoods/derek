@@ -124,7 +124,7 @@ class Derek:
         self.name = name
         return self
 
-    def parse(self, format: str = "oas3") -> _typing.JSON:
+    def parse(self, format: str = "oas3", **kwargs) -> _typing.JSON:
         """
         Convert a tree of Derek nodes to a given format.
 
@@ -132,6 +132,8 @@ class Derek:
         ----------
         format
             Output format.
+        kwargs
+            Keyword arguments to pass to self.parser.
 
         Returns
         -------
@@ -144,7 +146,7 @@ class Derek:
         else:
             raise NotImplementedError
 
-        result = parser(self)
+        result = parser(self, **kwargs)
         result["example"] = self.example()
         return {self.name or "untitled": result}
 
