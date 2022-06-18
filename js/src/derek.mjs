@@ -1,4 +1,4 @@
-import { Parser } from "./parse.mjs";
+import { Parser } from "./parse/index.mjs";
 
 class Derek {
   constructor(parent = null, children = null, value = null, name = null) {

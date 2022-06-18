@@ -1,5 +1,5 @@
 import { Derek } from "../src/derek.mjs";
-import { Parser } from "../src/parse.mjs";
+import { Parser } from "../src/parse/index.mjs";
 
 describe("initialization", () => {
   test("defaults", () => {
