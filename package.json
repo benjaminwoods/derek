@@ -52,15 +52,12 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "js/src/**/*.mjs"
+      "js/src/**/*.cjs"
     ],
     "coverageReporters": [
       "lcov",
       "cobertura",
       "text"
-    ],
-    "transform": {
-      "^.+\\.m?[t|j]sx?$": "babel-jest"
-    }
+    ]
   }
 }

@@ -1,5 +1,5 @@
-import { Derek } from "../src/derek.mjs";
-import { Parser } from "../src/parse/index.mjs";
+const { Derek } = require("../src/derek.cjs");
+const { Parser } = require("../src/parse/parser.cjs");
 
 describe("initialization", () => {
   test("defaults", () => {

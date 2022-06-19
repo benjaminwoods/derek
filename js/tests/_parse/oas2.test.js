@@ -1,5 +1,5 @@
-import { Derek } from "../../src/derek.mjs";
-import * as _oas2 from "../../src/parse/oas2.mjs";
+const { Derek } = require("../../src/derek.cjs");
+const _oas2 = require("../../src/parse/oas2.cjs");
 
 let node;
 beforeAll(() => {
