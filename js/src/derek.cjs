@@ -1,4 +1,4 @@
-import { Parser } from "./parse/index.mjs";
+const { Parser } = require("./parse/index.cjs");
 
 class Derek {
   constructor(parent = null, children = null, value = null, name = null) {
@@ -92,4 +92,4 @@ class Derek {
   }
 }
 
-export { Derek };
+module.exports = { Derek };

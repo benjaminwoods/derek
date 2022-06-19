@@ -1,4 +1,4 @@
-export function oas2(node, strategy = "permissive") {
+function oas2(node, strategy = "permissive") {
   let j;
 
   if (node.value.constructor == Array && node.value.length == 0) {
@@ -43,7 +43,7 @@ export function oas2(node, strategy = "permissive") {
   return j;
 }
 
-export function _oas2_array(node, strategy) {
+function _oas2_array(node, strategy) {
   let j;
   let schema;
 
@@ -66,7 +66,7 @@ export function _oas2_array(node, strategy) {
   return j;
 }
 
-export function _oas2_object(node, strategy) {
+function _oas2_object(node, strategy) {
   let j;
   let schema;
 
@@ -86,13 +86,13 @@ export function _oas2_object(node, strategy) {
   return j;
 }
 
-export function _get_subschemas(node, strategy) {
+function _get_subschemas(node, strategy) {
   const subschemas = node.children.map((c) => oas2(c, strategy));
 
   return subschemas;
 }
 
-export function _merge_schemas(schemas) {
+function _merge_schemas(schemas) {
   const schemas_split = _split_schemas_by_type(schemas);
   let merged = [];
   const objects = schemas_split.object || [];
@@ -111,7 +111,7 @@ export function _merge_schemas(schemas) {
   return merged;
 }
 
-export function _merge_objects(schemas) {
+function _merge_objects(schemas) {
   const merged = { type: "object" };
 
   const count = {};
@@ -151,18 +151,18 @@ export function _merge_objects(schemas) {
   return merged;
 }
 
-export function _oneOf(schemas) {
+function _oneOf(schemas) {
   const unique = _unique_schemas(schemas);
   return unique.length <= 1 ? unique[0] : { oneOf: unique };
 }
 
-export function _unique_schemas(schemas) {
+function _unique_schemas(schemas) {
   return Array.from(new Set(schemas.map((s) => JSON.stringify(s)))).map((S) =>
     JSON.parse(S)
   );
 }
 
-export function _split_schemas_by_type(schemas) {
+function _split_schemas_by_type(schemas) {
   const collection = {};
   schemas.forEach((s) => {
     const subschema_type = s.type;
@@ -173,3 +173,15 @@ export function _split_schemas_by_type(schemas) {
   });
   return collection;
 }
+
+module.exports = {
+  oas2,
+  _oas2_array,
+  _oas2_object,
+  _get_subschemas,
+  _merge_schemas,
+  _merge_objects,
+  _oneOf,
+  _unique_schemas,
+  _split_schemas_by_type,
+};

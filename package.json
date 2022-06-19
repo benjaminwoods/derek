@@ -5,8 +5,11 @@
   "directories": {
     "doc": "docs"
   },
-  "type": "module",
-  "exports": "./js/src/index.mjs",
+  "main": "./js/src/index.cjs",
+  "exports": {
+    "import": "./js/src/wrapper.mjs",
+    "require": "./js/src/index.cjs"
+  },
   "files": [
     "js/src/*.mjs"
   ],
@@ -27,7 +30,6 @@
     "url": "https://github.com/benjaminwoods/derek/issues"
   },
   "homepage": "https://github.com/benjaminwoods/derek#readme",
-  "main": "./js/src/index.mjs",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.16.5",
