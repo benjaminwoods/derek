@@ -1,4 +1,4 @@
-const { oas2 } = require("./oas2.cjs");
+const { oas2 } = require("./oas2");
 
 class Parser {
   static oas2 = oas2;

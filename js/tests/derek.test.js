@@ -1,5 +1,5 @@
-const { Derek } = require("../src/derek.cjs");
-const { Parser } = require("../src/parse/parser.cjs");
+const { Derek } = require("../src/cjs/derek");
+const { Parser } = require("../src/cjs/parse/parser");
 
 describe("initialization", () => {
   test("defaults", () => {

@@ -1,5 +1,5 @@
-const { Derek } = require("../../src/derek.cjs");
-const _oas2 = require("../../src/parse/oas2.cjs");
+const { Derek } = require("../../../src/cjs/derek");
+const _oas2 = require("../../../src/cjs/parse/oas2");
 
 let node;
 beforeAll(() => {

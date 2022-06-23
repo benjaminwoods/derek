@@ -1,4 +1,4 @@
-const { Parser } = require("./parse/index.cjs");
+const { Parser } = require("./parse/");
 
 class Derek {
   constructor(parent = null, children = null, value = null, name = null) {
