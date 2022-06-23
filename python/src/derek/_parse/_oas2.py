@@ -568,10 +568,9 @@ def _unique_schemas(schemas, ordered=False):
 
     if ordered:
         unique = []
-        for i, s in enumerate(map(json.dumps, schemas)):
-            schema = schemas[i]
-            if schema not in unique:
-                unique.append(schema)
+        for s in schemas:
+            if s not in unique:
+                unique.append(s)
 
         return unique
     else:
