@@ -1,4 +1,4 @@
-import { oas2 } from "./oas2.mjs";
+const { oas2 } = require("./oas2");
 
 class Parser {
   static oas2 = oas2;
@@ -8,4 +8,6 @@ class Parser {
   }
 }
 
-export { Parser };
+module.exports = {
+  Parser,
+};

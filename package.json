@@ -5,8 +5,11 @@
   "directories": {
     "doc": "docs"
   },
-  "type": "module",
-  "exports": "./js/src/index.mjs",
+  "main": "./js/src/cjs/index.js",
+  "exports": {
+    "import": "./js/src/esm/index.js",
+    "require": "./js/src/cjs/index.js"
+  },
   "files": [
     "js/src/*.mjs"
   ],
@@ -27,7 +30,6 @@
     "url": "https://github.com/benjaminwoods/derek/issues"
   },
   "homepage": "https://github.com/benjaminwoods/derek#readme",
-  "main": "./js/src/index.mjs",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.16.5",
@@ -50,15 +52,12 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "js/src/**/*.mjs"
+      "js/src/**/*.js"
     ],
     "coverageReporters": [
       "lcov",
       "cobertura",
       "text"
-    ],
-    "transform": {
-      "^.+\\.m?[t|j]sx?$": "babel-jest"
-    }
+    ]
   }
 }
