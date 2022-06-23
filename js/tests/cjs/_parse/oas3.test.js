@@ -1,5 +1,5 @@
 const { Derek } = require("../../../src/cjs/derek");
-const { Parser } = require("../../../src/cjs/parse/parser");
+const { Parser } = require("../../../src/cjs/parse/Parser");
 
 function schema(obj, ...kwargs) {
   const node = Derek.tree(obj, ...kwargs);
