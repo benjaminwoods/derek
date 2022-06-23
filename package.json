@@ -5,10 +5,10 @@
   "directories": {
     "doc": "docs"
   },
-  "main": "./js/src/index.cjs",
+  "main": "./js/src/cjs/index.js",
   "exports": {
-    "import": "./js/src/wrapper.mjs",
-    "require": "./js/src/index.cjs"
+    "import": "./js/src/esm/index.js",
+    "require": "./js/src/cjs/index.js"
   },
   "files": [
     "js/src/*.mjs"
@@ -52,7 +52,7 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "js/src/**/*.cjs"
+      "js/src/**/*.js"
     ],
     "coverageReporters": [
       "lcov",
