@@ -1,3 +1,11 @@
+/**
+ * Convert a data structure, with :code:`node` as the root node,
+ * into OAS2 schema.
+ *
+ * @param {Derek} node - Root node of tree.
+ * @param {string} strategy - Schema extraction strategy.
+ * @returns {Object} - OAS2 schema, as JSON-serializable object.
+ */
 function oas2(node, strategy = "permissive") {
   let j;
 
@@ -43,6 +51,14 @@ function oas2(node, strategy = "permissive") {
   return j;
 }
 
+/**
+ * Parse an Array node with a given strategy, and return an OAS2 JSON
+ * schema
+ *
+ * @param {Derek} node - Root node of tree.
+ * @param {string} strategy - Schema extraction strategy.
+ * @returns {Object} - OAS2 schema, as JSON-serializable object.
+ */
 function _oas2_array(node, strategy) {
   let j;
   let schema;
@@ -66,6 +82,14 @@ function _oas2_array(node, strategy) {
   return j;
 }
 
+/**
+ * Parse an Object node with a given strategy, and return an OAS2 JSON
+ * schema.
+ *
+ * @param {Derek} node - Root node of tree.
+ * @param {string} strategy - Schema extraction strategy.
+ * @returns {Object} - OAS2 schema, as JSON-serializable object.
+ */
 function _oas2_object(node, strategy) {
   let j;
   let schema;
@@ -86,12 +110,26 @@ function _oas2_object(node, strategy) {
   return j;
 }
 
+/**
+ * Get subschemas for each of the node's children.
+ *
+ * @param {Derek} node - Root node of tree.
+ * @param {string} strategy - Schema extraction strategy.
+ * @returns {Array} - Subschemas, returned as an array of objects.
+ */
 function _get_subschemas(node, strategy) {
   const subschemas = node.children.map((c) => oas2(c, strategy));
 
   return subschemas;
 }
 
+/**
+ * Merge together subschemas.
+ *
+ * @param {Derek} node - Root node of tree.
+ * @param {string} strategy - Schema extraction strategy.
+ * @returns {Array} - Subschemas, returned as an array of objects.
+ */
 function _merge_schemas(schemas) {
   const schemas_split = _split_schemas_by_type(schemas);
   let merged = [];
@@ -111,6 +149,12 @@ function _merge_schemas(schemas) {
   return merged;
 }
 
+/**
+ * Merge together object subschemas.
+ *
+ * @param {Array} schemas - Subschemas, specified as an array of objects.
+ * @returns {Array} - Subschemas, returned as an array of objects.
+ */
 function _merge_objects(schemas) {
   const merged = { type: "object" };
 
@@ -151,17 +195,35 @@ function _merge_objects(schemas) {
   return merged;
 }
 
+/**
+ * Compress schemas using oneOf.
+ *
+ * @param {Array} schemas - Subschemas, specified as an array of objects.
+ * @returns {Object} - schemas[0] if all schemas are the same.
+ */
 function _oneOf(schemas) {
   const unique = _unique_schemas(schemas);
   return unique.length <= 1 ? unique[0] : { oneOf: unique };
 }
 
+/**
+ * Get subset of unique schemas from an array of schemas.
+ *
+ * @param {Array} schemas - Subschemas, specified as an array of objects.
+ * @returns {Array} - Unique schemas.
+ */
 function _unique_schemas(schemas) {
   return Array.from(new Set(schemas.map((s) => JSON.stringify(s)))).map((S) =>
     JSON.parse(S)
   );
 }
 
+/**
+ * Sort schemas by type.
+ *
+ * @param {Array} schemas - Subschemas, specified as an array of objects.
+ * @returns {Object} - Object with key-value pairs that refer to each schema type.
+ */
 function _split_schemas_by_type(schemas) {
   const collection = {};
   schemas.forEach((s) => {
