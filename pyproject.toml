@@ -23,8 +23,8 @@ packages = [{include = "derek", from = "python/src"}]
 
 [tool.poetry.dependencies]
 python = ">=3.6,<3.10"
-
-[tool.poetry.group.dev.dependencies]
+    
+[tool.poetry.dev-dependencies]
 pytest = "^7.0.0"
 radon = "^5.1.0"
 pytest-cov = "^4.0.0"
