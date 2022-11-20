@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "derek-py"
+version = "0.0.2"
+description = "Convert data structure to schema."
+authors = ["Benjamin Woods <ben@bjqw.me>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/benjaminwoods/derek"
+keywords = ["data", "schema", "convert", "analyze"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Database",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9"
+]
+packages = [{include = "derek", from = "python/src"}]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+radon = "^5.1.0"
+pytest-cov = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra"
+testpaths = [
+    "python/tests"
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "python/src/derek"
+]
+omit = [
+    "python/src/derek/_typing.py"
+]
