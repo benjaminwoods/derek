@@ -14,14 +14,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Update pip
         run: python -m pip install --upgrade pip
-      - name: Install Python dependencies
-        run: |
-          pip install -r python/requirements/install.txt
-          pip install -r python/requirements/test.txt
-      - name: Install Python project
-        run: pip install -e python
+      - name: Install Poetry
+        run: python -m pip install poetry
+      - name: Install project
+        run: poetry install
       - name: Test with pytest
-        run: pytest --junitxml=artifacts/python/junit.xml
+        run: poetry run pytest --junitxml=artifacts/python/junit.xml
   Code-Coverage:
     runs-on: ubuntu-latest
     steps:
@@ -35,19 +33,13 @@ jobs:
           python-version: 3.9
       - name: Update pip
         run: python -m pip install --upgrade pip
-      - name: Install Python dependencies
-        run: |
-          pip install -r python/requirements/install.txt
-          pip install -r python/requirements/test.txt
-      - name: Install Python project
-        run: pip install -e python
+      - name: Install Poetry
+        run: python -m pip install poetry
+      - name: Install project
+        run: poetry install
       - name: Run coverage
         run: |
-          pip install -r python/requirements/test.txt
-          pushd .
-          cd python
-          coverage run -m pytest && coverage report -m && mv .coverage ..
-          popd
+          poetry run pytest --cov
       - name: Coverage badge
         run: |
           mkdir -p .badges/coverage
