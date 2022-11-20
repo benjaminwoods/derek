@@ -44,8 +44,7 @@ jobs:
         run: |
           mkdir -p .badges/coverage
           rm -f .badges/coverage/python.svg
-          pip install coverage-badge
-          coverage-badge -o .badges/coverage/python.svg
+          poetry run coverage-badge -o .badges/coverage/python.svg
       - name: Check if badge updated
         id: check_badge
         run: >
