@@ -11,7 +11,7 @@
     "require": "./js/src/cjs/index.js"
   },
   "files": [
-    "js/src/*.mjs"
+    "js/src/**/*.js"
   ],
   "scripts": {
     "test": "jest --silent",
