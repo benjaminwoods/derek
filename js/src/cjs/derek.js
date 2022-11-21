@@ -1,6 +1,19 @@
-import { Parser } from "./parse.mjs";
+const { Parser } = require("./parse/");
 
+/**
+ * A node in a data structure.
+ *
+ * Contains information about itself, its parent node, and any child nodes.
+ */
 class Derek {
+  /**
+   * Create a node.
+   *
+   * @param parent - Parent node.
+   * @param children - Child nodes.
+   * @param value - A JSON-serializable object/array.
+   * @param name - Name of the returned Derek instance.
+   */
   constructor(parent = null, children = null, value = null, name = null) {
     this.parent = parent;
     this.children = children;
@@ -8,10 +21,24 @@ class Derek {
     this.name = name;
   }
 
+  /**
+   * Return the parser class.
+   *
+   * @returns {function} Parser class.
+   */
   get parser() {
     return Parser;
   }
 
+  /**
+   * Create a tree representation of obj.
+   *
+   * @static
+   * @param obj - A JSON-serializable dictionary/list.
+   * @param parent - Parent node to attach subtree to.
+   * @param name - Name of the returned Derek instance.
+   * @returns {Derek} Tree representation of obj, as a Derek instance.
+   */
   static tree(obj, parent = null, name = null) {
     // TODO: return DerekTree (a subclass of Derek) instead of Derek.
     let children;
@@ -36,6 +63,12 @@ class Derek {
     return self;
   }
 
+  /**
+   * Create a tree representation of obj.
+   *
+   * @param format - Output format.
+   * @returns {(Object|Array)} Tree representation of obj, as a Derek instance.
+   */
   parse(format = "oas3") {
     let parser, result;
 
@@ -53,6 +86,11 @@ class Derek {
     };
   }
 
+  /**
+   * Generate example JSON-serializable dictionary from self.
+   *
+   * @returns {Object} Example, as a JSON-serializable dictionary.
+   */
   example() {
     let result = null;
     if (this.value === null) {
@@ -92,4 +130,4 @@ class Derek {
   }
 }
 
-export { Derek };
+module.exports = { Derek };
