@@ -1,15 +1,19 @@
 # derek
 
-![MIT license](.badges/license.svg)
-
-- Python:
-  ![Python code coverage](.badges/coverage/python.svg)
-- JavaScript (Node.js)
-  ![Javascript code coverage](.badges/coverage/js.svg)
+![Latest release](https://badgen.net/github/release/benjaminwoods/derek) ![MIT license](.badges/license.svg)
 
 Tools for converting data into schema.
 
 (Still very much pre-alpha!)
+
+Implemented in multiple languages.
+
+|                       | Index                                       | Coverage                                             | Supported versions                                          | Downloads                                            |
+| --------------------- | ------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------- |
+| Python                | ![pypi](https://badgen.net/pypi/v/derek-py) | ![Python code coverage](.badges/coverage/python.svg) | ![Python versions](https://badgen.net/pypi/python/derek-py) | -                                                    |
+| JavaScript (node.js)  | ![npm](https://badgen.net/npm/v/derek-js)   | ![Javascript code coverage](.badges/coverage/js.svg) | ![node version](https://badgen.net/npm/node/derek-js)       | ![npm downloads](https://badgen.net/npm/dt/derek-js) |
+| Rust _(coming soon!)_ | -                                           | -                                                    | -                                                           | -                                                    |
+| Nim _(coming soon!)_  | -                                           | -                                                    | -                                                           | -                                                    |
 
 1. [Installation](#installation)
 2. [What is Derek?](#what-is-derek-)
@@ -27,27 +31,37 @@ Tools for converting data into schema.
 
 ### Python
 
-You can install this from pip:
+You can install this from the `pypi` index. It's available as the `derek-py` package.
 
-```bash
-pip install derek
+Simple example with `pip` (`poetry` is recommended):
+
+```python
+pip install derek-py
 ```
+
+Complete set of supported installation methods:
+
+| Package manager | pypi                   | git                                                           |
+| --------------- | ---------------------- | ------------------------------------------------------------- |
+| pip             | `pip install derek-py` | `pip install git+https://github.com/benjaminwoods/derek@main` |
+| poetry          | `poetry add derek-py`  | `poetry add git+https://github.com/benjaminwoods/derek#main`  |
 
 ### Javascript (Node.js)
 
-You can install this from git:
+You can install this from the `npm` index. It's available as the `derek-js` package.
 
-> Yarn
+Simple example with `yarn`:
 
-```bash
-yarn add https://github.com/benjaminwoods/derek#dev
+```python
+yarn add derek-js
 ```
 
-> npm
+Complete set of supported installation methods:
 
-```bash
-npm i https://github.com/benjaminwoods/derek#dev
-```
+| Package manager | npm                 | git                                                        |
+| --------------- | ------------------- | ---------------------------------------------------------- |
+| npm             | `npm i derek-js`    | `npm i git+https://github.com/benjaminwoods/derek#main`    |
+| yarn            | `yarn add derek-js` | `yarn add git+https://github.com/benjaminwoods/derek#main` |
 
 ## What is Derek? <a name="what"></a>
 
