@@ -11,7 +11,7 @@ Implemented in multiple languages.
 |                       | Index                                       | Coverage                                             | Supported versions                                          | Downloads                                            |
 | --------------------- | ------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------- |
 | Python                | ![pypi](https://badgen.net/pypi/v/derek-py) | ![Python code coverage](.badges/coverage/python.svg) | ![Python versions](https://badgen.net/pypi/python/derek-py) | -                                                    |
-| JavaScript (node.js)  | ![npm](https://badgen.net/npm/v/derek-js)   | ![Javascript code coverage](.badges/coverage/js.svg) | ![node version](https://badgen.net/npm/node/derek-js)       | ![npm downloads](https://badgen.net/npm/dt/derek-js) |
+| JavaScript (node.js)  | ![npm](https://badgen.net/npm/v/derek-ts)   | ![Javascript code coverage](.badges/coverage/js.svg) | ![node version](https://badgen.net/npm/node/derek-ts)       | ![npm downloads](https://badgen.net/npm/dt/derek-ts) |
 | Rust _(coming soon!)_ | -                                           | -                                                    | -                                                           | -                                                    |
 | Nim _(coming soon!)_  | -                                           | -                                                    | -                                                           | -                                                    |
 
@@ -48,20 +48,20 @@ Complete set of supported installation methods:
 
 ### Javascript (Node.js)
 
-You can install this from the `npm` index. It's available as the `derek-js` package.
+You can install this from the `npm` index. It's available as the `derek-ts` package.
 
 Simple example with `yarn`:
 
 ```python
-yarn add derek-js
+yarn add derek-ts
 ```
 
 Complete set of supported installation methods:
 
 | Package manager | npm                 | git                                                        |
 | --------------- | ------------------- | ---------------------------------------------------------- |
-| npm             | `npm i derek-js`    | `npm i git+https://github.com/benjaminwoods/derek#main`    |
-| yarn            | `yarn add derek-js` | `yarn add git+https://github.com/benjaminwoods/derek#main` |
+| npm             | `npm i derek-ts`    | `npm i git+https://github.com/benjaminwoods/derek#main`    |
+| yarn            | `yarn add derek-ts` | `yarn add git+https://github.com/benjaminwoods/derek#main` |
 
 ## What is Derek? <a name="what"></a>
 
